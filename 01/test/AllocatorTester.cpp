@@ -103,7 +103,6 @@ void AllocatorTester::test_alloc()
     assert(result == letter1);
 
     std::cout << "Successfully tested reading from allocated memory" << std::endl;
-    char letter2 = 'b';
     char *secondPointer = nullptr;
 
     secondPointer = allocator1->alloc(size1);

@@ -14,7 +14,7 @@ test: test.out
 $(BUILDDIR)/Allocator.o: Allocator.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILDDIR)/test.out: test.cpp AllocatorTester.o
+$(BUILDDIR)/test.out: test.cpp $(BUILDDIR)/AllocatorTester.o
 	$(CC) $(CFLAGS) $< -o $@
 
 $(BUILDDIR)/AllocatorTester.o: AllocatorTester.cpp Allocator.o
@@ -22,5 +22,4 @@ $(BUILDDIR)/AllocatorTester.o: AllocatorTester.cpp Allocator.o
 
 
 clean:
-	rm -rf *.out
-	rm -rf *.o
+	rm -rf ./build/*
