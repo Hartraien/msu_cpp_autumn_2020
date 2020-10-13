@@ -12,12 +12,16 @@ test: test.out
 Allocator.o: Allocator.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-test.out: test.cpp AllocatorTester.o AllocatorTester.hpp
-	$(CC) $(CFLAGS) $< -o $@
+test.out: test.cpp AllocatorTester.o  Allocator.o InitException.o
+	$(CC) $(CFLAGS) $^ -o $@
 
-AllocatorTester.o: AllocatorTester.cpp Allocator.o AllocatorTester.hpp Allocator.hpp
-	$(CC) $(CFLAGS) -c $< -o $@
+AllocatorTester.o: AllocatorTester.cpp
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+InitException.o: InitException.cpp
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 
 clean:
-	rm -rf ./build/*
+	rm -rf *.o
+	rm -rf *.out

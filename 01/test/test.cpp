@@ -1,6 +1,6 @@
 #include <iostream>
 #include <memory>
-#include "AllocatorTester.hpp"
+#include "../test/AllocatorTester.hpp"
 
 int main(int argc, char **argv)
 {
@@ -8,5 +8,5 @@ int main(int argc, char **argv)
     allocatorTester->test_makeAllocator();
     allocatorTester->test_alloc();
     allocatorTester->test_reset();
-    std::cout << "Tested everything successfully" << std::endl;
+    std::cout <<std::endl << "All tests were passed successfully" << std::endl;
 }

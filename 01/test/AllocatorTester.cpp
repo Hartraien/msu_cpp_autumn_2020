@@ -1,15 +1,19 @@
 #include <cassert>
 #include <exception>
 #include <string>
-#include <limits>
 #include <iostream>
 #include <memory>
 
-#include "AllocatorTester.hpp"
+#include "../test/AllocatorTester.hpp"
 #include "../src/Allocator.hpp"
 
 void AllocatorTester::test_makeAllocator()
 {
+    std::cout << std::endl
+              << std::endl
+              << "Testing makeAllocator method" << std::endl
+              << std::endl
+              << std::endl;
     std::unique_ptr<Allocator> allocator1(new Allocator());
 
     std::string exceptionText;
@@ -23,7 +27,7 @@ void AllocatorTester::test_makeAllocator()
         exceptionText = e.what();
     }
 
-    assert(exceptionText == "received non-positive maxSize argument: 0");
+    assert(exceptionText == "Received non-positive maxSize argument");
     std::cout << "Successfully tested for first time call of makeAllocator with maxSize == 0 argument" << std::endl;
 
     size_t size = 1000;
@@ -39,21 +43,19 @@ void AllocatorTester::test_makeAllocator()
     assert(allocator1->getRemainder() == size);
 
     std::cout << "Successfully tested for second call of makeAllocator with maxSize == 500 argument" << std::endl;
-
-    size_t maxSize = std::numeric_limits<std::size_t>::max();
-    std::unique_ptr<Allocator> allocator2(new Allocator());
-    allocator2->makeAllocator(maxSize);
-    assert(allocator2->getCapacity() == maxSize);
-    assert(allocator2->getRemainder() == maxSize);
-
-    std::cout << "Successfully tested for first time call of makeAllocator with maxSize == std::numeric_limits<std::size_t>::max() argument" << std::endl;
 }
 
 void AllocatorTester::test_alloc()
 {
+    std::cout << std::endl
+              << std::endl
+              << "Testing alloc method" << std::endl
+              << std::endl
+              << std::endl;
+
     const std::string noException = "No exception";
     size_t size = 1000;
-    std::unique_ptr<Allocator> allocator1(new Allocator(size));
+    std::unique_ptr<Allocator> allocator1(new Allocator());
 
     std::string exceptionTextAlloc;
     std::string expectedExceptionTextAlloc = "Allocator is not initiated, call makeAllocator before calling alloc";
@@ -67,7 +69,23 @@ void AllocatorTester::test_alloc()
     }
     assert(exceptionTextAlloc == expectedExceptionTextAlloc);
 
-    std::cout << "Successfully tested alloc() method for exception throwing" << std::endl;
+    std::cout << "Successfully tested alloc() method for exception throwing when calling before makeAllocator" << std::endl;
+
+    allocator1->makeAllocator(size);
+
+    size_t nullSize = 0;
+
+    expectedExceptionTextAlloc = "Received non-positive size argument";
+    try
+    {
+        allocator1->alloc(nullSize);
+    }
+    catch (const std::exception &e)
+    {
+        exceptionTextAlloc = e.what();
+    }
+    assert(exceptionTextAlloc == expectedExceptionTextAlloc);
+    std::cout << "Successfully tested alloc() method for size == 0" << std::endl;
 
     char *firstPointer = nullptr;
     size_t size1 = 100;
@@ -118,13 +136,19 @@ void AllocatorTester::test_alloc()
 
 void AllocatorTester::test_reset()
 {
+    std::cout << std::endl
+              << std::endl
+              << "Testing reset method" << std::endl
+              << std::endl
+              << std::endl;
+
     size_t maxSize = 1000;
     size_t size1 = 100;
     size_t size2 = 200;
     std::unique_ptr<Allocator> allocator(new Allocator());
 
     std::string exceptionTextReset;
-    std::string expectedExceptionTextReset = "Allocator is not initiated, call makeAllocator before calling alloc";
+    std::string expectedExceptionTextReset = "Allocator is not initiated, call makeAllocator before calling reset";
     try
     {
         allocator->reset();
@@ -135,7 +159,7 @@ void AllocatorTester::test_reset()
     }
     assert(exceptionTextReset == expectedExceptionTextReset);
 
-    std::cout << "Successfully tested reset() method for exception throwing" << std::endl;
+    std::cout << "Successfully tested reset() method for exception throwing when calling before makeAllocator" << std::endl;
 
     allocator->makeAllocator(maxSize);
 
