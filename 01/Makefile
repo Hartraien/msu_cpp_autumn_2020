@@ -1,6 +1,6 @@
 CC = g++
 
-CFLAGS = -g -Wall
+CFLAGS = -std=c++17 -g -Wall
 
 VPATH = ./src:./test
 
