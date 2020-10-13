@@ -3,8 +3,10 @@
 
 Allocator::Allocator()
 {
-	this->offset = this->baseOffset;
+	this->offset = 0;
+	this->capacity = 0;
 	this->mem_pointer = nullptr;
+	this->isInitiated = false;
 }
 
 Allocator::Allocator(size_t maxSize) : Allocator()
@@ -14,10 +16,16 @@ Allocator::Allocator(size_t maxSize) : Allocator()
 
 void Allocator::makeAllocator(size_t maxSize)
 {
+	if (this->isInitiated == true)
+	{
+		return;
+	}
 	if (maxSize > 0)
 	{
-		mem_pointer = new char[maxSize];
+		this->mem_pointer = new char[maxSize];
 		this->capacity = maxSize;
+		this->isInitiated = true;
+		return;
 	}
 	else
 	{
@@ -27,25 +35,41 @@ void Allocator::makeAllocator(size_t maxSize)
 
 char *Allocator::alloc(size_t size)
 {
-	size_t remainder = this->capacity - this->offset;
-	if (size < remainder)
+	if (this->isInitiated == false)
+	{
+		throw "Allocator is not initiated, call makeAllocator before calling alloc";
+	}
+	if (size < this->getRemainder())
 	{
 		this->offset += size;
-		return mem_pointer+size;
+		return this->mem_pointer + size;
 	}
 	else
 	{
 		return nullptr;
 	}
-	
 }
 
 void Allocator::reset()
 {
-	offset = baseOffset;
+	if (this->isInitiated == false)
+	{
+		throw "Allocator is not initiated, call makeAllocator before calling reset";
+	}
+	this->offset = 0;
 }
 
 Allocator::~Allocator()
 {
 	delete[] this->mem_pointer;
+}
+
+size_t Allocator::getCapacity()
+{
+	return this->capacity;
+}
+
+size_t Allocator::getRemainder()
+{
+	return this->capacity - this->offset;
 }
