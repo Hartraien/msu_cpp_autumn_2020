@@ -1,6 +1,3 @@
-#include <exception>
-#include <string>
-
 #include "InitException.hpp"
 InitException::InitException(const std::string &message) : message_(message)
 {

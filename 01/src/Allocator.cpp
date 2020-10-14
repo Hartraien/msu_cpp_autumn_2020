@@ -47,7 +47,7 @@ char *Allocator::alloc(size_t size)
 	if (size < this->getRemainder())
 	{
 		size_t previousOffset = this->offset_;
-		this->offset_+=size;
+		this->offset_ += size;
 		return this->mem_pointer_ + previousOffset;
 	}
 	else

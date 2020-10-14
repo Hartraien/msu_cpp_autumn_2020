@@ -14,7 +14,7 @@ void AllocatorTester::test_makeAllocator()
               << "Testing makeAllocator method" << std::endl
               << std::endl
               << std::endl;
-    std::unique_ptr<Allocator> allocator1(new Allocator());
+    std::unique_ptr<Allocator> allocator1 = std::make_unique<Allocator>();
 
     std::string exceptionText;
 
@@ -55,7 +55,7 @@ void AllocatorTester::test_alloc()
 
     const std::string noException = "No exception";
     size_t size = 1000;
-    std::unique_ptr<Allocator> allocator1(new Allocator());
+    std::unique_ptr<Allocator> allocator1 = std::make_unique<Allocator>();
 
     std::string exceptionTextAlloc;
     std::string expectedExceptionTextAlloc = "Allocator is not initiated, call makeAllocator before calling alloc";
@@ -145,7 +145,7 @@ void AllocatorTester::test_reset()
     size_t maxSize = 1000;
     size_t size1 = 100;
     size_t size2 = 200;
-    std::unique_ptr<Allocator> allocator(new Allocator());
+    std::unique_ptr<Allocator> allocator = std::make_unique<Allocator>();
 
     std::string exceptionTextReset;
     std::string expectedExceptionTextReset = "Allocator is not initiated, call makeAllocator before calling reset";

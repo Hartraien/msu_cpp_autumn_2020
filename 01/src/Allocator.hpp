@@ -1,3 +1,6 @@
+#ifndef __ALLOCATOR_HPP___
+#define __ALLOCATOR_HPP___
+
 class Allocator
 {
 public:
@@ -17,7 +20,7 @@ public:
 	//Resets allocated memory for reuse
 	//throws std::invalid_argument("Allocator is not initiated...") if called before makeAllocator
 	void reset();
-	//Deletes mem_pointer_ 
+	//Deletes mem_pointer_
 	~Allocator();
 	// Returns capacity of preallocated memory
 	// If called before makeAllocator returns 0
@@ -40,3 +43,5 @@ private:
 	// Initial value = false
 	bool isInitiated_;
 };
+
+#endif
