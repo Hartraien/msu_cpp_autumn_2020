@@ -3,16 +3,16 @@
 #include <string>
 #include <functional>
 
-//TODO
+// TODO
 //Remake callback_func_pointer to actual function pointer
 // probably  to std::
-using callback_func_pointer = void *;
+using callback_func_pointer = std::function<void (const std::string&)>;
 
 class TokenParser
 {
 public:
     // default constructor, sets default callback functions
-    // see defaultNumberParser and defaultStringParser
+    // see defaultNumberTokenParser and defaultStringTokenParser
     TokenParser();
 
     // Constructor that sets numberTokenCallback and stringTokenCallback
@@ -20,11 +20,11 @@ public:
     TokenParser(callback_func_pointer, callback_func_pointer);
 
     // Sets numberTokenCallback to passed function
-    // Pass nullptr to reset numberTokenCallback to defaultNumberPArser
+    // Pass nullptr to reset numberTokenCallback to defaultNumberTokenParser
     void setNumberTokenCallback(callback_func_pointer);
 
     // Sets stringTokenCallback to passed function
-    // Pass nullptr to reset stringTokenCallback to defaultNumberParser
+    // Pass nullptr to reset stringTokenCallback to defaultStringTokenParser
     void setStringTokenCallback(callback_func_pointer);
 
     // Sets callback function that is called before parsing
@@ -39,18 +39,27 @@ public:
     void parse(const std::string &);
 
 protected:
+    // default parser for number tokens
+    // TODO
+    // right now does nothing
+    void defaultNumberTokenParser(const std::string&);
+    
+    // default parser for string tokens
+    // TODO
+    // right now does nothing
+    void defaultStringTokenParser(const std::string&);
 private:
-    // Pointer to callbackfunctionm that works on numbers
+    // Pointer to callbackfunction that works on numbers
     callback_func_pointer numberTokenCallback;
 
-    // Pointer to callbackfunctionm that works on strings
+    // Pointer to callbackfunction that works on strings
     callback_func_pointer stringTokenCallback;
 
-    // Pointer to callbackfunctionm that works on strings
-    callback_func_pointer startCallbackFunc;
+    // Pointer to callbackfunction that works on strings
+    callback_func_pointer startCallback;
 
-    // Pointer to callbackfunctionm that works on strings
-    callback_func_pointer finalCallbackFunc;
+    // Pointer to callbackfunction that works on strings
+    callback_func_pointer finalCallback;
 };
 
 #endif
