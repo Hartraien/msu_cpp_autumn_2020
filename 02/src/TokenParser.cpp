@@ -2,6 +2,58 @@
 
 void TokenParser::parse(const std::string &text)
 {
+    size_t pos = 0;
+    if (this->startCallback)
+    {
+        this->startCallback(text);
+    }
+
+    while (pos != text.length())
+    {
+        std::string token = this->getNextToken(text, pos);
+        if (getTokenType(token))
+        {
+            this->numberTokenCallback(token);
+        }
+        else
+        {
+            this->stringTokenCallback(token);
+        }
+        pos = pos + token.length();
+        
+    }
+
+    if (this->finalCallback)
+    {
+        this->finalCallback(text);
+    }
+    return;
+}
+
+void TokenParser::defaultNumberTokenParser(const std::string &)
+{
+    return;
+}
+
+void TokenParser::defaultStringTokenParser(const std::string &)
+{
+    return;
+}
+
+bool TokenParser::getTokenType(const std::string &s)
+{
+    return s.find_first_not_of("0123456789") == std::string::npos;
+}
+
+std::string TokenParser::getNextToken(const std::string &text, size_t pos)
+{
+    std::string delimeters = " \t\n";
+    size_t new_pos = text.find_first_of(delimeters, pos);
+    if (new_pos == std::string::npos)
+    {
+        new_pos = text.length();
+    }
+    return text.substr(pos, new_pos - pos);
 }
 TokenParser::TokenParser()
 {

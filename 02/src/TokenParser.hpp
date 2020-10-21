@@ -48,6 +48,10 @@ protected:
     // TODO
     // right now does nothing
     void defaultStringTokenParser(const std::string&);
+
+    // checks whether the token is number or not
+    // returns True if number and False otherwise
+    bool getTokenType(const std::string&);
 private:
     // Pointer to callbackfunction that works on numbers
     callback_func_pointer numberTokenCallback;
@@ -60,6 +64,9 @@ private:
 
     // Pointer to callbackfunction that works on strings
     callback_func_pointer finalCallback;
+
+    //
+    std::string getNextToken(const std::string&, size_t);
 };
 
 #endif
