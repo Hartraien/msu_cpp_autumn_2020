@@ -3,7 +3,6 @@
 #include <string>
 #include <functional>
 
-
 // function type for callback functions
 // If return value is needed, use lambda function with variable captured by reference
 using callback_func_pointer = std::function<void(const std::string &)>;

@@ -13,6 +13,7 @@ using pointer_to_func = void (*)(const std::string &);
 
 void TokenParserTester::test_setNumberTokenCallback()
 {
+    std::cout << "!! Testing TokenParser::setNumberTokenCallback method !!" << std::endl;
     std::cout << "This test will sequentially pass pointer, lambda function and std::function object to numberTokenCallback of TokenParser Instance" << std::endl;
     std::cout << "Then get numberTokenCallback from TokenParser Instance" << std::endl;
     std::cout << "Call both of them" << std::endl;
@@ -114,6 +115,7 @@ void TokenParserTester::test_setNumberTokenCallback()
 
 void TokenParserTester::test_setStringTokenCallback()
 {
+    std::cout << "!! Testing TokenParser::setStringTokenCallback method !!" << std::endl;
     std::cout << "This test will sequentially pass pointer, lambda function and std::function object to stringTokenCallback of TokenParser Instance" << std::endl;
     std::cout << "Then get stringTokenCallback from TokenParser Instance" << std::endl;
     std::cout << "Call both of them" << std::endl;
@@ -215,6 +217,7 @@ void TokenParserTester::test_setStringTokenCallback()
 
 void TokenParserTester::test_setStartCallback()
 {
+    std::cout << "!! Testing TokenParser::setStartCallback method !!" << std::endl;
     std::cout << "This test will sequentially pass pointer, lambda function and std::function object to startCallback of TokenParser Instance" << std::endl;
     std::cout << "Then get startCallback from TokenParser Instance" << std::endl;
     std::cout << "Call both of them" << std::endl;
@@ -316,6 +319,7 @@ void TokenParserTester::test_setStartCallback()
 
 void TokenParserTester::test_setFinalCallback()
 {
+    std::cout << "!! Testing TokenParser::setFinalCallback method !!" << std::endl;
     std::cout << "This test will sequentially pass pointer, lambda function and std::function object to finalCallback of TokenParser Instance" << std::endl;
     std::cout << "Then get finalCallback from TokenParser Instance" << std::endl;
     std::cout << "Call both of them" << std::endl;
@@ -417,15 +421,24 @@ void TokenParserTester::test_setFinalCallback()
 
 void TokenParserTester::test_parse()
 {
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
+    std::cout << "!! Testing TokenParser::parse() method !!" << std::endl;
+    std::cout << std::endl
+              << std::endl;
     this->test_parse_default();
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
     this->test_parse_customTokenCallback();
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
     this->test_parse_customStartFinalCallback();
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
     this->test_parse_allCustom();
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
+    std::cout << "!! Successfully tested TokenParser::parse() method !!" << std::endl;
 }
 
 void TokenParserTester::test_parse_default()

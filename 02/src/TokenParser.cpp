@@ -35,12 +35,12 @@ void TokenParser::defaultStringTokenParser(const std::string &)
     return;
 }
 
-void TokenParser::defaultStartParser(const std::string &) 
+void TokenParser::defaultStartParser(const std::string &)
 {
     return;
 }
 
-void TokenParser::defaultFinalParser(const std::string &) 
+void TokenParser::defaultFinalParser(const std::string &)
 {
     return;
 }
@@ -140,7 +140,6 @@ void TokenParser::setFinalCallback(callback_func_pointer finalCallback)
     {
         this->finalCallback = [this](const std::string &token) { this->defaultFinalParser(token); };
     }
-    
 }
 
 void TokenParser::reset()
