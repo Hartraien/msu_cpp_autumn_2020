@@ -52,6 +52,24 @@ protected:
     // checks whether the token is number or not
     // returns True if number and False otherwise
     bool getTokenType(const std::string&);
+
+    // return pointer for string token callback
+    // mostly for testing purposes
+    callback_func_pointer getStringTokenCallback();
+
+    // return pointer for number token callback
+    // mostly for testing purposes
+    callback_func_pointer getNumberTokenCallback();
+
+    // return pointer for start callback
+    // mostly for testing purposes
+    callback_func_pointer getStartCallback();
+
+    // return pointer for final callback
+    // mostly for testing purposes
+    callback_func_pointer getFinalCallback();
+
+    void TokenParser::reset();
 private:
     // Pointer to callbackfunction that works on numbers
     callback_func_pointer numberTokenCallback;
@@ -69,4 +87,4 @@ private:
     std::string getNextToken(const std::string&, size_t);
 };
 
-#endif
+#endif //__CUSTOMPARSER_HPP__

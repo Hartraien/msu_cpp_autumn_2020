@@ -20,7 +20,6 @@ void TokenParser::parse(const std::string &text)
             this->stringTokenCallback(token);
         }
         pos = pos + token.length();
-        
     }
 
     if (this->finalCallback)
@@ -101,4 +100,12 @@ void TokenParser::setStartCallback(callback_func_pointer startCallback)
 void TokenParser::setFinalCallback(callback_func_pointer finalCallback)
 {
     this->finalCallback = finalCallback;
+}
+
+void TokenParser::reset()
+{
+    this->setNumberTokenCallback([this](const std::string &token) { this->defaultNumberTokenParser(token); });
+    this->setStringTokenCallback([this](const std::string &token) { this->defaultStringTokenParser(token); });
+    this->setStartCallback(nullptr);
+    this->setFinalCallback(nullptr);
 }
