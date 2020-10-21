@@ -44,6 +44,26 @@ bool TokenParser::getTokenType(const std::string &s)
     return s.find_first_not_of("0123456789") == std::string::npos;
 }
 
+callback_func_pointer TokenParser::getStringTokenCallback() 
+{
+    return this->stringTokenCallback;
+}
+
+callback_func_pointer TokenParser::getNumberTokenCallback() 
+{
+    return this->numberTokenCallback;
+}
+
+callback_func_pointer TokenParser::getStartCallback() 
+{
+    return this->startCallback;
+}
+
+callback_func_pointer TokenParser::getFinalCallback() 
+{
+    return this->finalCallback;
+}
+
 std::string TokenParser::getNextToken(const std::string &text, size_t pos)
 {
     std::string delimeters = " \t\n";

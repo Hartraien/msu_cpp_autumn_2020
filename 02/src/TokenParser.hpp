@@ -69,7 +69,7 @@ protected:
     // mostly for testing purposes
     callback_func_pointer getFinalCallback();
 
-    void TokenParser::reset();
+    void reset();
 private:
     // Pointer to callbackfunction that works on numbers
     callback_func_pointer numberTokenCallback;

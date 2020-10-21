@@ -16,8 +16,6 @@ public:
     void test_parse_customTokenCallback();
     void test_parse_customStartFinalCallback();
     void test_parse_allCustom();
-protected:
-    void reset();
 };
 
 #endif // __TOKENPARSERTESTER_H__
