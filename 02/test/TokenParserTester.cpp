@@ -106,14 +106,284 @@ void TokenParserTester::test_setNumberTokenCallback()
 
 void TokenParserTester::test_setStringTokenCallback()
 {
+    std::string res1, res2;
+    auto oldStdoutBuf = std::cout.rdbuf();
+    std::stringstream tempCout;
+
+    // testing pointers
+
+    std::cout << "Testing for passing pointer to stringTokenCallback" << std::endl;
+    pointer_to_func p = testNumbertokenCallback;
+    this->setNumberTokenCallback(p);
+    callback_func_pointer inner_p = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        p("test");
+        inner_p("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed pointer to stringTokenCallback" << std::endl;
+    this->reset();
+
+    // testing lambdas
+
+    std::cout << "Testing for passing lambda to stringTokenCallback" << std::endl;
+    auto l = [](const std::string &a) { std::cout << "lambda function named 'l' text equals " << a << std::endl; };
+    this->setNumberTokenCallback(l);
+    callback_func_pointer inner_l = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        l("test");
+        inner_l("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed lambda to stringTokenCallback" << std::endl;
+    this->reset();
+
+    // testing std::function
+
+    std::cout << "Testing for passing std::function to stringTokenCallback" << std::endl;
+    auto f = std::function<void(const std::string &a)>(testNumbertokenCallback);
+    this->setNumberTokenCallback(f);
+    callback_func_pointer inner_f = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        f("test");
+        inner_f("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed std::function to stringTokenCallback" << std::endl;
+    this->reset();
 }
 
 void TokenParserTester::test_setStartCallback()
 {
+    std::string res1, res2;
+    auto oldStdoutBuf = std::cout.rdbuf();
+    std::stringstream tempCout;
+
+    // testing pointers
+
+    std::cout << "Testing for passing pointer to startCallback" << std::endl;
+    pointer_to_func p = testNumbertokenCallback;
+    this->setNumberTokenCallback(p);
+    callback_func_pointer inner_p = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        p("test");
+        inner_p("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed pointer to startCallback" << std::endl;
+    this->reset();
+
+    // testing lambdas
+
+    std::cout << "Testing for passing lambda to startCallback" << std::endl;
+    auto l = [](const std::string &a) { std::cout << "lambda function named 'l' text equals " << a << std::endl; };
+    this->setNumberTokenCallback(l);
+    callback_func_pointer inner_l = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        l("test");
+        inner_l("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed lambda to startCallback" << std::endl;
+    this->reset();
+
+    // testing std::function
+
+    std::cout << "Testing for passing std::function to startCallback" << std::endl;
+    auto f = std::function<void(const std::string &a)>(testNumbertokenCallback);
+    this->setNumberTokenCallback(f);
+    callback_func_pointer inner_f = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        f("test");
+        inner_f("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed std::function to startCallback" << std::endl;
+    this->reset();
 }
 
 void TokenParserTester::test_setFinalCallback()
 {
+    std::string res1, res2;
+    auto oldStdoutBuf = std::cout.rdbuf();
+    std::stringstream tempCout;
+
+    // testing pointers
+
+    std::cout << "Testing for passing pointer to finalCallback" << std::endl;
+    pointer_to_func p = testNumbertokenCallback;
+    this->setNumberTokenCallback(p);
+    callback_func_pointer inner_p = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        p("test");
+        inner_p("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed pointer to finalCallback" << std::endl;
+    this->reset();
+
+    // testing lambdas
+
+    std::cout << "Testing for passing lambda to finalCallback" << std::endl;
+    auto l = [](const std::string &a) { std::cout << "lambda function named 'l' text equals " << a << std::endl; };
+    this->setNumberTokenCallback(l);
+    callback_func_pointer inner_l = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        l("test");
+        inner_l("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed lambda to finalCallback" << std::endl;
+    this->reset();
+
+    // testing std::function
+
+    std::cout << "Testing for passing std::function to finalCallback" << std::endl;
+    auto f = std::function<void(const std::string &a)>(testNumbertokenCallback);
+    this->setNumberTokenCallback(f);
+    callback_func_pointer inner_f = this->getNumberTokenCallback();
+
+    try
+    {
+        std::cout.rdbuf(tempCout.rdbuf());
+        f("test");
+        inner_f("test");
+        std::getline(tempCout, res1);
+        std::getline(tempCout, res2);
+        std::cout.rdbuf(oldStdoutBuf);
+        tempCout.clear();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    std::cout.rdbuf(oldStdoutBuf);
+    assert(res1 == res2);
+    res1.clear();
+    res2.clear();
+    std::cout << "Successfully passed std::function to finalCallback" << std::endl;
+    this->reset();
 }
 
 void TokenParserTester::test_parse()
