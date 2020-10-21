@@ -1,5 +1,5 @@
-#ifndef __TOKENPARSERTESTER_H__
-#define __TOKENPARSERTESTER_H__
+#ifndef __TOKENPARSERTESTER_HPP__
+#define __TOKENPARSERTESTER_HPP__
 
 #include "../src/TokenParser.hpp"
 
@@ -16,6 +16,11 @@ public:
     void test_parse_customTokenCallback();
     void test_parse_customStartFinalCallback();
     void test_parse_allCustom();
+
+private:
+    std::string test_text;
+    std::string test_empty_text;
+    std::string test_delim_only_text;
 };
 
-#endif // __TOKENPARSERTESTER_H__
+#endif // __TOKENPARSERTESTER_HPP__

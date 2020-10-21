@@ -3,10 +3,10 @@
 #include <string>
 #include <functional>
 
-// TODO
-//Remake callback_func_pointer to actual function pointer
-// probably  to std::
-using callback_func_pointer = std::function<void (const std::string&)>;
+
+// function type for callback functions
+// If return value is needed, use lambda function with variable captured by reference
+using callback_func_pointer = std::function<void(const std::string &)>;
 
 class TokenParser
 {
@@ -40,18 +40,27 @@ public:
 
 protected:
     // default parser for number tokens
-    // TODO
     // right now does nothing
-    void defaultNumberTokenParser(const std::string&);
-    
+    void defaultNumberTokenParser(const std::string &);
+
     // default parser for string tokens
-    // TODO
     // right now does nothing
-    void defaultStringTokenParser(const std::string&);
+    void defaultStringTokenParser(const std::string &);
+
+    // default parser for string tokens
+    // right now does nothing
+    void defaultStartParser(const std::string &);
+
+    // default parser for string tokens
+    // right now does nothing
+    void defaultFinalParser(const std::string &);
+
+    // get next token from string
+    std::string getNextToken(const std::string &, size_t);
 
     // checks whether the token is number or not
     // returns True if number and False otherwise
-    bool getTokenType(const std::string&);
+    bool getTokenType(const std::string &);
 
     // return pointer for string token callback
     // mostly for testing purposes
@@ -69,7 +78,9 @@ protected:
     // mostly for testing purposes
     callback_func_pointer getFinalCallback();
 
+    // resets TokenParsers callback functions
     void reset();
+
 private:
     // Pointer to callbackfunction that works on numbers
     callback_func_pointer numberTokenCallback;
@@ -82,9 +93,6 @@ private:
 
     // Pointer to callbackfunction that works on strings
     callback_func_pointer finalCallback;
-
-    //
-    std::string getNextToken(const std::string&, size_t);
 };
 
 #endif //__CUSTOMPARSER_HPP__

@@ -1,31 +1,27 @@
 #include "TokenParser.hpp"
+#include <iostream>
 
 void TokenParser::parse(const std::string &text)
 {
     size_t pos = 0;
-    if (this->startCallback)
-    {
-        this->startCallback(text);
-    }
-
-    while (pos != text.length())
+    this->startCallback(text);
+    while (pos < text.length())
     {
         std::string token = this->getNextToken(text, pos);
-        if (getTokenType(token))
+        if (token.length() != 0)
         {
-            this->numberTokenCallback(token);
+            if (getTokenType(token))
+            {
+                this->numberTokenCallback(token);
+            }
+            else
+            {
+                this->stringTokenCallback(token);
+            }
         }
-        else
-        {
-            this->stringTokenCallback(token);
-        }
-        pos = pos + token.length();
+        pos = pos + token.length() + 1;
     }
-
-    if (this->finalCallback)
-    {
-        this->finalCallback(text);
-    }
+    this->finalCallback(text);
     return;
 }
 
@@ -39,27 +35,37 @@ void TokenParser::defaultStringTokenParser(const std::string &)
     return;
 }
 
+void TokenParser::defaultStartParser(const std::string &) 
+{
+    return;
+}
+
+void TokenParser::defaultFinalParser(const std::string &) 
+{
+    return;
+}
+
 bool TokenParser::getTokenType(const std::string &s)
 {
     return s.find_first_not_of("0123456789") == std::string::npos;
 }
 
-callback_func_pointer TokenParser::getStringTokenCallback() 
+callback_func_pointer TokenParser::getStringTokenCallback()
 {
     return this->stringTokenCallback;
 }
 
-callback_func_pointer TokenParser::getNumberTokenCallback() 
+callback_func_pointer TokenParser::getNumberTokenCallback()
 {
     return this->numberTokenCallback;
 }
 
-callback_func_pointer TokenParser::getStartCallback() 
+callback_func_pointer TokenParser::getStartCallback()
 {
     return this->startCallback;
 }
 
-callback_func_pointer TokenParser::getFinalCallback() 
+callback_func_pointer TokenParser::getFinalCallback()
 {
     return this->finalCallback;
 }
@@ -78,8 +84,8 @@ TokenParser::TokenParser()
 {
     this->numberTokenCallback = [this](const std::string &token) { this->defaultNumberTokenParser(token); };
     this->stringTokenCallback = [this](const std::string &token) { this->defaultStringTokenParser(token); };
-    this->startCallback = nullptr;
-    this->finalCallback = nullptr;
+    this->startCallback = [this](const std::string &token) { this->defaultStartParser(token); };
+    this->finalCallback = [this](const std::string &token) { this->defaultFinalParser(token); };
 }
 
 TokenParser::TokenParser(callback_func_pointer numberTokenCallback, callback_func_pointer stringTokenCallback) : TokenParser()
@@ -114,18 +120,33 @@ void TokenParser::setStringTokenCallback(callback_func_pointer stringTokenCallba
 
 void TokenParser::setStartCallback(callback_func_pointer startCallback)
 {
-    this->startCallback = startCallback;
+    if (startCallback != nullptr)
+    {
+        this->startCallback = startCallback;
+    }
+    else
+    {
+        this->startCallback = [this](const std::string &token) { this->defaultStartParser(token); };
+    }
 }
 
 void TokenParser::setFinalCallback(callback_func_pointer finalCallback)
 {
-    this->finalCallback = finalCallback;
+    if (finalCallback != nullptr)
+    {
+        this->finalCallback = finalCallback;
+    }
+    else
+    {
+        this->finalCallback = [this](const std::string &token) { this->defaultFinalParser(token); };
+    }
+    
 }
 
 void TokenParser::reset()
 {
-    this->setNumberTokenCallback([this](const std::string &token) { this->defaultNumberTokenParser(token); });
-    this->setStringTokenCallback([this](const std::string &token) { this->defaultStringTokenParser(token); });
+    this->setNumberTokenCallback(nullptr);
+    this->setStringTokenCallback(nullptr);
     this->setStartCallback(nullptr);
     this->setFinalCallback(nullptr);
 }
