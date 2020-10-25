@@ -128,7 +128,7 @@ Matrix::MatrixRow &Matrix::MatrixRow::operator+=(const MatrixRow &m)
     {
         this->_data[i] += m[i];
     }
-    return (*this)
+    return (*this);
 }
 Matrix::MatrixRow &Matrix::MatrixRow::operator+(const MatrixRow &m) const
 {
@@ -144,8 +144,9 @@ Matrix::MatrixRow &Matrix::MatrixRow::operator-=(const MatrixRow &m)
     {
         this->_data[i] -= m[i];
     }
-    return (*this)
+    return (*this);
 }
+
 Matrix::MatrixRow &Matrix::MatrixRow::operator-(const MatrixRow &m) const
 {
     MatrixRow result(*this);

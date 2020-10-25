@@ -96,7 +96,7 @@ Matrix::Matrix(size_t row_count, size_t col_count, MatrixRow *data)
     this->data = data;
 }
 
-Matrix::Matrix(Matrix&& m) 
+Matrix::Matrix(Matrix &&m)
 {
     this->data = m.data;
     this->row_count = m.row_count;
@@ -168,5 +168,5 @@ Matrix &Matrix::operator+=(const Matrix &m)
     {
         this->data[i] += m[i];
     }
-    return(*this);
+    return (*this);
 }
