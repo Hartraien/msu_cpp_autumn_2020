@@ -53,7 +53,7 @@ protected:
 public:
     Matrix(size_t, size_t, int);
     Matrix(size_t, size_t, int *);
-    Matrix(size_t, size_t, MatrixRow *);
+    //Matrix(size_t, size_t, MatrixRow *);
     Matrix(const Matrix &);
     Matrix(Matrix &&);
     Matrix &operator=(const Matrix &);
@@ -88,7 +88,7 @@ public:
     friend std::ostream &operator<<(std::ostream &, const Matrix &);
 
 private:
-    std::string &toString() const;
+    std::string toString() const;
     Matrix(size_t, size_t, MatrixRow *);
 
 private:

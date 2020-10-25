@@ -80,7 +80,7 @@ bool Matrix::operator!=(const Matrix &m) const
     return !(*this == m);
 }
 
-std::string &Matrix::toString() const
+std::string Matrix::toString() const
 {
     std::string result = "";
     for (size_t i = 0; i < this->row_count; i++)

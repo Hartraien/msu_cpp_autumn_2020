@@ -27,7 +27,6 @@ Matrix::MatrixRow::MatrixRow(size_t length, int *data)
 
 Matrix::MatrixRow::MatrixRow(const MatrixRow &r)
 {
-    delete[] this->_data;
     this->_data = new int[r.length];
     this->length = r.length;
     this->isInitialized = r.isInitialized;
@@ -47,11 +46,11 @@ Matrix::MatrixRow &Matrix::MatrixRow::operator=(const MatrixRow &r)
     {
         this->_data[i] = r[i];
     }
+    return (*this);
 }
 
 Matrix::MatrixRow::MatrixRow(MatrixRow &&r)
 {
-    delete[] this->_data;
     this->_data = r._data;
     this->length = r.length;
     this->isInitialized = r.isInitialized;
