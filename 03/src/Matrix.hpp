@@ -27,17 +27,17 @@ protected:
         int &operator[](size_t);
 
         MatrixRow &operator*=(int);
-        MatrixRow &operator*(int) const;
+        MatrixRow operator*(int) const;
 
         // for matrix multiplication
         // multiplies per element and sums results
         //int operator*(const MatrixRow &) const;
 
         MatrixRow &operator+=(const MatrixRow &);
-        MatrixRow &operator+(const MatrixRow &) const;
+        MatrixRow operator+(const MatrixRow &) const;
 
         MatrixRow &operator-=(const MatrixRow &);
-        MatrixRow &operator-(const MatrixRow &) const;
+        MatrixRow operator-(const MatrixRow &) const;
 
         bool operator==(const MatrixRow &) const;
         bool operator!=(const MatrixRow &) const;
@@ -63,17 +63,17 @@ public:
     size_t getCols() const;
 
     Matrix &operator*=(int);
-    Matrix &operator*(int) const;
+    Matrix operator*(int) const;
 
     //probably Ignore
     //Matrix &operator*=(const Matrix &);
     //Matrix &operator*(const Matrix &) const;
 
     Matrix &operator+=(const Matrix &);
-    Matrix &operator+(const Matrix &) const;
+    Matrix operator+(const Matrix &) const;
 
     Matrix &operator-=(const Matrix &);
-    Matrix &operator-(const Matrix &) const;
+    Matrix operator-(const Matrix &) const;
 
     bool operator==(const Matrix &) const;
     bool operator!=(const Matrix &) const;

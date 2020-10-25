@@ -43,6 +43,7 @@ Matrix &Matrix::operator=(const Matrix &m)
     {
         this->data[i] = m.data[i];
     }
+    return (*this);
 }
 
 Matrix &Matrix::operator-=(const Matrix &m)
@@ -53,9 +54,10 @@ Matrix &Matrix::operator-=(const Matrix &m)
     {
         this->data[i] -= m[i];
     }
+    return (*this);
 }
 
-Matrix &Matrix::operator-(const Matrix &m) const
+Matrix Matrix::operator-(const Matrix &m) const
 {
     Matrix result(*this);
     return result -= m;
@@ -124,7 +126,7 @@ Matrix::MatrixRow &Matrix::operator[](size_t index)
     return this->data[index];
 }
 
-Matrix &Matrix::operator+(const Matrix &m) const
+Matrix Matrix::operator+(const Matrix &m) const
 {
     Matrix result(*this);
     return result += m;
@@ -154,7 +156,7 @@ Matrix &Matrix::operator*=(int value)
     return (*this);
 }
 
-Matrix &Matrix::operator*(int value) const
+Matrix Matrix::operator*(int value) const
 {
     Matrix result(*this);
     return result *= value;
