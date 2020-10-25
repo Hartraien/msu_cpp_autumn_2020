@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <stdexcept>
 //#include "MatrixRow.hpp"
 
 class Matrix
@@ -14,29 +15,34 @@ protected:
         MatrixRow();
         MatrixRow(size_t, int);
         MatrixRow(size_t, int *);
-        MatrixRow& operator=(const MatrixRow*);
+        MatrixRow(const MatrixRow &);
+        MatrixRow &operator=(const MatrixRow &);
+        MatrixRow(MatrixRow &&);
         ~MatrixRow();
         void Initialize(size_t, int);
-        void Initialize(size_t, int*);
-        void Initialize(const MatrixRow&);
-
+        void Initialize(size_t, int *);
+        void Initialize(const MatrixRow &);
 
         const int operator[](size_t) const;
-        int& operator[](size_t);
+        int &operator[](size_t);
 
-        MatrixRow& operator*=(int);
-        MatrixRow& operator*(int) const;
+        MatrixRow &operator*=(int);
+        MatrixRow &operator*(int) const;
 
         // for matrix multiplication
         // multiplies per element and sums results
-        int operator*(const MatrixRow&) const;
+        //int operator*(const MatrixRow &) const;
 
-        MatrixRow& operator+=(const MatrixRow&);
-        MatrixRow& operator+(const MatrixRow&) const;
+        MatrixRow &operator+=(const MatrixRow &);
+        MatrixRow &operator+(const MatrixRow &) const;
 
-        MatrixRow& operator-=(const MatrixRow&);
-        MatrixRow& operator-(const MatrixRow&) const;
+        MatrixRow &operator-=(const MatrixRow &);
+        MatrixRow &operator-(const MatrixRow &) const;
 
+        bool operator==(const MatrixRow &) const;
+        bool operator!=(const MatrixRow &) const;
+
+        std::string toString();
 
     private:
         int *_data;
@@ -47,7 +53,9 @@ protected:
 public:
     Matrix(size_t, size_t, int);
     Matrix(size_t, size_t, int *);
+    Matrix(size_t, size_t, MatrixRow *);
     Matrix(const Matrix &);
+    Matrix(Matrix &&);
     Matrix &operator=(const Matrix &);
     ~Matrix();
 
@@ -58,8 +66,8 @@ public:
     Matrix &operator*(int) const;
 
     //probably Ignore
-    Matrix &operator*=(const Matrix &);
-    Matrix &operator*(const Matrix &) const;
+    //Matrix &operator*=(const Matrix &);
+    //Matrix &operator*(const Matrix &) const;
 
     Matrix &operator+=(const Matrix &);
     Matrix &operator+(const Matrix &) const;
@@ -73,15 +81,15 @@ public:
     MatrixRow &operator[](size_t);
     const MatrixRow &operator[](size_t) const;
 
-    void tranpose();
+    void transpose();
 
-    Matrix& getTranspose() const;
+    Matrix &getTranspose() const;
 
     friend std::ostream &operator<<(std::ostream &, const Matrix &);
 
 private:
     std::string &toString() const;
-    Matrix(size_t, size_t, MatrixRow*);
+    Matrix(size_t, size_t, MatrixRow *);
 
 private:
     //TODO

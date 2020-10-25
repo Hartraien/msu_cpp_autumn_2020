@@ -12,10 +12,16 @@ test: test.out
 TokenParser.o: TokenParser.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-test.out: test.cpp TokenParserTester.o  TokenParser.o
+test.out: test.cpp Matrix.o  MatrixRow.o MatrixTester.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-TokenParserTester.o: TokenParserTester.cpp
+MatrixTester.o: MatrixTester.cpp Matrix.o MatrixRow.out
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+Matrix.o: Matrix.cpp
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+MatrixRow.o: MatrixRow.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 
