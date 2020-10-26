@@ -1,6 +1,6 @@
 #include "Matrix.hpp"
 
-Matrix::Matrix(size_t row_count, size_t col_count, int value = 0)
+Matrix::Matrix(size_t row_count, size_t col_count, int value)
 {
     this->row_count = row_count;
     this->col_count = col_count;
@@ -134,7 +134,7 @@ Matrix Matrix::operator+(const Matrix &m) const
 
 Matrix::~Matrix()
 {
-    delete this->data;
+    delete[] this->data;
 }
 
 size_t Matrix::getRows() const

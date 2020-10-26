@@ -51,7 +51,7 @@ protected:
     };
 
 public:
-    Matrix(size_t, size_t, int);
+    Matrix(size_t, size_t, int = 0);
     Matrix(size_t, size_t, int *);
     //Matrix(size_t, size_t, MatrixRow *);
     Matrix(const Matrix &);
