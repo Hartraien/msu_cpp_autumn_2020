@@ -11,7 +11,7 @@ Matrix::Matrix(size_t row_count, size_t col_count, int value)
     }
 }
 
-Matrix::Matrix(size_t row_count, size_t col_count, int *values)
+Matrix::Matrix(size_t row_count, size_t col_count, int **values)
 {
     this->row_count = row_count;
     this->col_count = col_count;
@@ -83,19 +83,13 @@ bool Matrix::operator!=(const Matrix &m) const
 std::string Matrix::toString() const
 {
     std::string result = "";
+    size_t maxIntLength = this->findNumberLength();
     for (size_t i = 0; i < this->row_count; i++)
     {
-        result += this->data[i].toString();
+        result += this->data[i].toString(maxIntLength);
         result += "\n";
     }
     return result;
-}
-
-Matrix::Matrix(size_t row_count, size_t col_count, MatrixRow *data)
-{
-    this->row_count = row_count;
-    this->col_count = col_count;
-    this->data = data;
 }
 
 Matrix::Matrix(Matrix &&m)
@@ -104,6 +98,18 @@ Matrix::Matrix(Matrix &&m)
     this->row_count = m.row_count;
     this->col_count = m.col_count;
     m.data = nullptr;
+}
+
+size_t Matrix::findNumberLength() const
+{
+    size_t maxLength = 0;
+    for (size_t i =0; i <this->row_count; i++)
+    {
+        size_t val = this->data[i].findNumberLength();
+        if(val>maxLength)
+            maxLength = val;
+    }
+    return maxLength+1;
 }
 
 std::ostream &operator<<(std::ostream &os, const Matrix &m)
@@ -128,6 +134,8 @@ Matrix::MatrixRow &Matrix::operator[](size_t index)
 
 Matrix Matrix::operator+(const Matrix &m) const
 {
+    if ((this->row_count != m.row_count) || (this->col_count != m.col_count))
+        throw std::out_of_range("");
     Matrix result(*this);
     return result += m;
 }
@@ -172,3 +180,4 @@ Matrix &Matrix::operator+=(const Matrix &m)
     }
     return (*this);
 }
+

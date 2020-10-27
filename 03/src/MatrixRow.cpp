@@ -168,13 +168,30 @@ bool Matrix::MatrixRow::operator!=(const MatrixRow &m) const
     return !(*this == m);
 }
 
-std::string Matrix::MatrixRow::toString()
+std::string Matrix::MatrixRow::toString(size_t numberLength) const 
 {
     std::string result = "";
     for (size_t i = 0; i < this->length; i++)
     {
-        result += std::to_string(this->_data[i]);
-        result += " ";
+        std::string temp;
+        temp += std::to_string(this->_data[i]);
+        temp.insert(0,numberLength - temp.length(), ' ');
+        temp += " ";
+        result+=temp;
     }
     return result;
+}
+
+size_t Matrix::MatrixRow::findNumberLength() const
+{
+    int maxAbsVal = 0;
+    for (size_t i = 0; i < this->length; i++)
+    {
+        int val = this->_data[i];
+        if (val < 0)
+            val = -val;
+        if (val>maxAbsVal)
+            maxAbsVal = val;
+    }
+    return std::to_string(maxAbsVal).length();
 }
