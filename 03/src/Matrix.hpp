@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
-//#include "MatrixRow.hpp"
 
 class Matrix
 {
@@ -16,7 +15,7 @@ protected:
     public:
         //Default constructor
         MatrixRow();
-        //Creates MatrixRow of length size_t with each element equal int
+        //Creates MatrixRow of _length size_t with each element equal int
         MatrixRow(size_t, int);
         //Creates MatrixRow from int* of lentgth size_t
         MatrixRow(size_t, int *);
@@ -73,25 +72,24 @@ protected:
         MatrixRow operator-(const MatrixRow &) const;
 
         //Compares two MatrixRows elementwise
-        //Also returns false if this MatrixRows have different length
+        //Also returns false if this MatrixRows have different _length
         bool operator==(const MatrixRow &) const;
         //Compares two MatrixRows elementwise
-        //Also returns false if this MatrixRows have same length
+        //Also returns false if this MatrixRows have same _length
         bool operator!=(const MatrixRow &) const;
 
         //Converts MatrixRow to string representation
-        //argument - length of each number string for formatted output
+        //argument - _length of each number string for formatted output
         //Used in Matrix::toString() method
         std::string toString(size_t) const;
 
-        //Returns length of longest number in MatrixRow
-        //Used in Matrix::findNumberLength() method
-        size_t findNumberLength() const;
+        //Returns _length of longest number in MatrixRow
+        //Used in Matrix::maxNumberLength() method
+        size_t maxNumberLength() const;
 
     private:
         int *_data;
-        size_t length;
-        bool isInitialized;
+        size_t _length;
     };
 
 public:
@@ -107,7 +105,7 @@ public:
     //Performs deep copy
     Matrix &operator=(const Matrix &);
     //Destructor
-    //Calls delete[] data
+    //Calls delete[] _data
     ~Matrix();
 
     //Returns number of rows in Matrix
@@ -142,11 +140,11 @@ public:
     bool operator!=(const Matrix &) const;
 
     //Returns reference to the MatrixRow at size_t position (indexing starts with 0)
-    //Throws std::out_of_bounds("") execption if size_t index is out of data bounds
+    //Throws std::out_of_bounds("") execption if size_t index is out of _data bounds
     //Used for assignment
     MatrixRow &operator[](size_t);
     //Returns MatrixRow at size_t position (indexing starts with 0)
-    //Throws std::out_of_bounds("") execption if size_t index is out of data bounds
+    //Throws std::out_of_bounds("") execption if size_t index is out of _data bounds
     //Used for rvalue operations
     const MatrixRow &operator[](size_t) const;
 
@@ -156,14 +154,14 @@ public:
 private:
     //Converts Matrix to string representation
     std::string toString() const;
-    //Returns length of largest (by absolute value) number in Matrix for formatted string representation
+    //Returns _length of largest (by absolute value) number in Matrix for formatted string representation
     //Also saves one place for minus sign
-    size_t findNumberLength() const;
+    size_t maxNumberLength() const;
 
 private:
-    MatrixRow *data;
-    size_t row_count;
-    size_t col_count;
+    MatrixRow *_data;
+    size_t _row_count;
+    size_t _col_count;
 };
 
 #endif // __MATRIX_HPP__

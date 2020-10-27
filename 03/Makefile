@@ -4,7 +4,7 @@ CFLAGS = -std=c++17 -g -Wall
 
 VPATH = ./src:./test
 
-all: MatrixTester.o test.out
+all: test.out
 
 test: test.out
 	./test.out

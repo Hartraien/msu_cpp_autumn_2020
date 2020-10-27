@@ -2,57 +2,57 @@
 
 Matrix::Matrix(size_t row_count, size_t col_count, int value)
 {
-    this->row_count = row_count;
-    this->col_count = col_count;
-    this->data = new MatrixRow[row_count];
-    for (size_t i = 0; i < this->row_count; i++)
+    this->_row_count = row_count;
+    this->_col_count = col_count;
+    this->_data = new MatrixRow[row_count];
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        this->data[i].Initialize(this->col_count, value);
+        this->_data[i].Initialize(this->_col_count, value);
     }
 }
 
 Matrix::Matrix(size_t row_count, size_t col_count, int **values)
 {
-    this->row_count = row_count;
-    this->col_count = col_count;
-    this->data = new MatrixRow[row_count];
-    for (size_t i = 0; i < this->row_count; i++)
+    this->_row_count = row_count;
+    this->_col_count = col_count;
+    this->_data = new MatrixRow[row_count];
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        this->data[i].Initialize(this->col_count, values[i]);
+        this->_data[i].Initialize(this->_col_count, values[i]);
     }
 }
 
 Matrix::Matrix(const Matrix &m)
 {
-    this->row_count = m.row_count;
-    this->col_count = m.col_count;
-    this->data = new MatrixRow[this->row_count];
-    for (size_t i = 0; i < this->row_count; i++)
+    this->_row_count = m._row_count;
+    this->_col_count = m._col_count;
+    this->_data = new MatrixRow[this->_row_count];
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        this->data[i].Initialize(m.data[i]);
+        this->_data[i].Initialize(m._data[i]);
     }
 }
 
 Matrix &Matrix::operator=(const Matrix &m)
 {
-    delete data;
-    this->row_count = m.row_count;
-    this->col_count = m.col_count;
-    this->data = new MatrixRow[this->row_count];
-    for (size_t i = 0; i < this->row_count; i++)
+    delete _data;
+    this->_row_count = m._row_count;
+    this->_col_count = m._col_count;
+    this->_data = new MatrixRow[this->_row_count];
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        this->data[i] = m.data[i];
+        this->_data[i] = m._data[i];
     }
     return (*this);
 }
 
 Matrix &Matrix::operator-=(const Matrix &m)
 {
-    if ((this->row_count != m.row_count) || (this->col_count != m.col_count))
+    if ((this->_row_count != m._row_count) || (this->_col_count != m._col_count))
         throw std::out_of_range("");
-    for (size_t i = 0; i < this->row_count; i++)
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        this->data[i] -= m[i];
+        this->_data[i] -= m[i];
     }
     return (*this);
 }
@@ -65,11 +65,11 @@ Matrix Matrix::operator-(const Matrix &m) const
 
 bool Matrix::operator==(const Matrix &m) const
 {
-    if ((this->row_count != m.row_count) || (this->col_count != m.col_count))
+    if ((this->_row_count != m._row_count) || (this->_col_count != m._col_count))
         return false;
-    for (size_t i = 0; i < this->row_count; i++)
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        if (this->data[i] != m.data[i])
+        if (this->_data[i] != m._data[i])
             return false;
     }
     return true;
@@ -83,10 +83,10 @@ bool Matrix::operator!=(const Matrix &m) const
 std::string Matrix::toString() const
 {
     std::string result = "";
-    size_t maxIntLength = this->findNumberLength();
-    for (size_t i = 0; i < this->row_count; i++)
+    size_t maxIntLength = this->maxNumberLength();
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        result += this->data[i].toString(maxIntLength);
+        result += this->_data[i].toString(maxIntLength);
         result += "\n";
     }
     return result;
@@ -94,18 +94,18 @@ std::string Matrix::toString() const
 
 Matrix::Matrix(Matrix &&m)
 {
-    this->data = m.data;
-    this->row_count = m.row_count;
-    this->col_count = m.col_count;
-    m.data = nullptr;
+    this->_data = m._data;
+    this->_row_count = m._row_count;
+    this->_col_count = m._col_count;
+    m._data = nullptr;
 }
 
-size_t Matrix::findNumberLength() const
+size_t Matrix::maxNumberLength() const
 {
     size_t maxLength = 0;
-    for (size_t i =0; i <this->row_count; i++)
+    for (size_t i =0; i <this->_row_count; i++)
     {
-        size_t val = this->data[i].findNumberLength();
+        size_t val = this->_data[i].maxNumberLength();
         if(val>maxLength)
             maxLength = val;
     }
@@ -120,21 +120,21 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m)
 
 const Matrix::MatrixRow &Matrix::operator[](size_t index) const
 {
-    if (this->row_count <= index)
+    if (this->_row_count <= index)
         throw std::out_of_range("");
-    return this->data[index];
+    return this->_data[index];
 }
 
 Matrix::MatrixRow &Matrix::operator[](size_t index)
 {
-    if (this->row_count <= index)
+    if (this->_row_count <= index)
         throw std::out_of_range("");
-    return this->data[index];
+    return this->_data[index];
 }
 
 Matrix Matrix::operator+(const Matrix &m) const
 {
-    if ((this->row_count != m.row_count) || (this->col_count != m.col_count))
+    if ((this->_row_count != m._row_count) || (this->_col_count != m._col_count))
         throw std::out_of_range("");
     Matrix result(*this);
     return result += m;
@@ -142,24 +142,24 @@ Matrix Matrix::operator+(const Matrix &m) const
 
 Matrix::~Matrix()
 {
-    delete[] this->data;
+    delete[] this->_data;
 }
 
 size_t Matrix::getRows() const
 {
-    return this->row_count;
+    return this->_row_count;
 }
 
 size_t Matrix::getCols() const
 {
-    return this->col_count;
+    return this->_col_count;
 }
 
 Matrix &Matrix::operator*=(int value)
 {
-    for (size_t i = 0; i < this->row_count; i++)
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        this->data[i] *= value;
+        this->_data[i] *= value;
     }
     return (*this);
 }
@@ -172,11 +172,11 @@ Matrix Matrix::operator*(int value) const
 
 Matrix &Matrix::operator+=(const Matrix &m)
 {
-    if ((this->row_count != m.row_count) || (this->col_count != m.col_count))
+    if ((this->_row_count != m._row_count) || (this->_col_count != m._col_count))
         throw std::out_of_range("");
-    for (size_t i = 0; i < this->row_count; i++)
+    for (size_t i = 0; i < this->_row_count; i++)
     {
-        this->data[i] += m[i];
+        this->_data[i] += m[i];
     }
     return (*this);
 }
