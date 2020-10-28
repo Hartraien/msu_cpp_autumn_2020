@@ -35,6 +35,8 @@ Matrix::Matrix(const Matrix &m)
 
 Matrix &Matrix::operator=(const Matrix &m)
 {
+    if (this == &m)
+        return (*this);
     delete _data;
     this->_row_count = m._row_count;
     this->_col_count = m._col_count;
@@ -103,13 +105,13 @@ Matrix::Matrix(Matrix &&m)
 size_t Matrix::maxNumberLength() const
 {
     size_t maxLength = 0;
-    for (size_t i =0; i <this->_row_count; i++)
+    for (size_t i = 0; i < this->_row_count; i++)
     {
         size_t val = this->_data[i].maxNumberLength();
-        if(val>maxLength)
+        if (val > maxLength)
             maxLength = val;
     }
-    return maxLength+1;
+    return maxLength + 1;
 }
 
 std::ostream &operator<<(std::ostream &os, const Matrix &m)
@@ -180,4 +182,3 @@ Matrix &Matrix::operator+=(const Matrix &m)
     }
     return (*this);
 }
-
