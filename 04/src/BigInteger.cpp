@@ -23,27 +23,6 @@ BigInteger::BigInteger(int64_t a) : BigInteger()
     }
 }
 
-BigInteger::BigInteger(uint64_t a) : BigInteger()
-{
-    uint32_t one, two;
-    one = static_cast<uint32_t>(a);
-    two = static_cast<uint32_t>(a >> 32);
-    if (two == 0)
-    {
-        this->_length = 1;
-    }
-    else
-    {
-        this->_length = 2;
-    }
-    this->_data = new uint32_t[this->_length];
-    _data[0] = one;
-    if (this->_length == 2)
-    {
-        _data[1] = two;
-    }
-}
-
 BigInteger::BigInteger(const std::string &str) : BigInteger()
 {
     std::string buffer;
@@ -151,8 +130,69 @@ std::ostream &operator<<(std::ostream &os, const BigInteger &b)
 BigInteger BigInteger::operator-() const
 {
     BigInteger result(*this);
-    result._sign = !result._sign;
+    if (result != 0)
+        result._sign = !result._sign;
     return result;
+}
+
+bool operator>(const BigInteger &a, int b)
+{
+    return (a > BigInteger(b));
+}
+
+bool operator<(const BigInteger &a, int b)
+{
+    return (a < BigInteger(b));
+}
+
+bool operator>=(const BigInteger &a, int b)
+{
+    return (a == BigInteger(b));
+}
+
+bool operator<=(const BigInteger &a, int b)
+{
+    return (a <= BigInteger(b));
+}
+
+bool operator!=(const BigInteger &a, int b)
+{
+    return (a != BigInteger(b));
+}
+
+bool operator==(const BigInteger &a, int b)
+{
+    return (a == BigInteger(b));
+}
+
+bool operator>(int a, const BigInteger &b)
+{
+    return (BigInteger(a) > b);
+}
+
+bool operator<(int a, const BigInteger &b)
+{
+    return (BigInteger(a) < b);
+}
+
+bool operator>=(int a, const BigInteger &b)
+{
+    return (BigInteger(a) >= b);
+}
+
+bool operator<=(int a, const BigInteger &b)
+{
+    return (BigInteger(a) <= b);
+}
+
+bool operator!=(int a, const BigInteger &b)
+{
+    return (BigInteger(a) != b);
+}
+
+bool operator==(int a, const BigInteger &b)
+{
+    return (BigInteger(a) == b);
 }
 
 BigInteger &BigInteger::operator+=(const BigInteger &b)
@@ -206,6 +246,14 @@ BigInteger::BigInteger(uint32_t *data, size_t length)
     this->_sign = Signs::Positive;
 }
 
+uint32_t BigInteger::getAt(size_t index)
+{
+    if (index > this->_length)
+        return 0;
+    else
+        return this->_data[index];
+}
+
 bool operator>(const BigInteger &a, const BigInteger &b)
 {
     int32_t comp = a.compareTo(b);
@@ -242,7 +290,25 @@ bool operator==(const BigInteger &a, const BigInteger &b)
     return (comp == 0);
 }
 
-BigInteger operator+(const BigInteger &a, const BigInteger &b) 
+BigInteger operator+(const BigInteger &a, const BigInteger &b)
 {
-    
+    if (a._sign != b._sign)
+    {
+        if (a._sign == BigInteger::Signs::Negative)
+            return b - a;
+        else
+            return a - b;
+    }
+    size_t maxLength = b._length > a._length ? b._length : a._length;
+    uint32_t carry_over = 0;
+
+    BigInteger result;
+    result._sign = a._sign;
+    result._length = maxLength;
+    result._data = new uint32_t[result._length];
+
+    for (size_t i = 0; i < maxLength; i++)
+    {
+    }
+    return result;
 }

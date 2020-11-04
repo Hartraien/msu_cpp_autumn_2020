@@ -8,7 +8,6 @@ class BigInteger
 public:
     //Different constructors
     BigInteger(int64_t);
-    BigInteger(uint64_t);
     BigInteger(const std::string &);
 
     //Copy Constructor
@@ -31,13 +30,27 @@ public:
     friend BigInteger operator+(const BigInteger &, const BigInteger &);
     friend BigInteger operator-(const BigInteger &, const BigInteger &);
     friend BigInteger operator*(const BigInteger &, const BigInteger &);
-    //compare operators
+    //compare operators with same class
     friend bool operator==(const BigInteger &, const BigInteger &);
     friend bool operator!=(const BigInteger &, const BigInteger &);
     friend bool operator<=(const BigInteger &, const BigInteger &);
     friend bool operator>=(const BigInteger &, const BigInteger &);
     friend bool operator<(const BigInteger &, const BigInteger &);
     friend bool operator>(const BigInteger &, const BigInteger &);
+
+    friend bool operator==(int, const BigInteger &);
+    friend bool operator!=(int, const BigInteger &);
+    friend bool operator<=(int, const BigInteger &);
+    friend bool operator>=(int, const BigInteger &);
+    friend bool operator<(int, const BigInteger &);
+    friend bool operator>(int, const BigInteger &);
+
+    friend bool operator==(const BigInteger &, int);
+    friend bool operator!=(const BigInteger &, int);
+    friend bool operator<=(const BigInteger &, int);
+    friend bool operator>=(const BigInteger &, int);
+    friend bool operator<(const BigInteger &, int);
+    friend bool operator>(const BigInteger &, int);
 
 protected:
     int32_t compareTo(const BigInteger &) const;
@@ -46,6 +59,7 @@ protected:
 private:
     BigInteger(uint32_t *, size_t);
     BigInteger();
+    uint32_t getAt(size_t);
 
 private:
     uint32_t *_data;
