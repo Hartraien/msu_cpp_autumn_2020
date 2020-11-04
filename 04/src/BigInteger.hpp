@@ -9,6 +9,11 @@ public:
     //Different constructors
     BigInteger(int64_t);
     BigInteger(const std::string &);
+    
+    //Destructor
+    //Does not delete data if isTemp = true
+    //Used in multiply function
+    ~BigInteger();
 
     //Copy Constructor
     BigInteger(const BigInteger &);
@@ -55,19 +60,27 @@ public:
 protected:
     int32_t compareTo(const BigInteger &) const;
     std::string toString() const;
+    BigInteger add(const BigInteger &) const;
+    BigInteger subtract(const BigInteger &) const;
+    BigInteger multiply(const BigInteger &) const;
+    BigInteger shift(size_t) const;
 
 private:
     BigInteger(uint32_t *, size_t);
     BigInteger();
-    uint32_t getAt(size_t);
+    uint32_t getAt(size_t) const;
+    void clearZeros();
 
 private:
     uint32_t *_data;
     bool _sign;
     size_t _length;
+    bool isTemp;
 
-    const uint32_t bitmask = (1 << 16) - 1;
-    const uint32_t digitCount = 5;
+    const uint32_t __bitmask = (1 << __bitshift) - 1;
+    const uint32_t __digitCount = 4;
+    const uint32_t __bitshift = 16;
+    const uint32_t __upperBound = 10000;
 
     enum Signs : bool
     {
