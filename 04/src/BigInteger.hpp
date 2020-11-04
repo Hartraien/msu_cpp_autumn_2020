@@ -16,8 +16,11 @@ public:
     //Move Constructor
     BigInteger(BigInteger &&);
 
+    BigInteger &operator=(const BigInteger &);
+    BigInteger &operator=(BigInteger &&);
+
     //unary minus
-    BigInteger operator-();
+    BigInteger operator-() const;
 
     BigInteger &operator+=(const BigInteger &);
     BigInteger &operator-=(const BigInteger &);
@@ -37,18 +40,26 @@ public:
     friend bool operator>(const BigInteger &, const BigInteger &);
 
 protected:
-    int32_t compareTo(const BigInteger &);
-    std::string toString();
+    int32_t compareTo(const BigInteger &) const;
+    std::string toString() const;
 
 private:
     BigInteger(uint32_t *, size_t);
+    BigInteger();
 
 private:
     uint32_t *_data;
-    bool sign;
-    size_t length;
+    bool _sign;
+    size_t _length;
 
     const uint32_t bitmask = (1 << 16) - 1;
+    const uint32_t digitCount = 5;
+
+    enum Signs : bool
+    {
+        Negative = false,
+        Positive = true
+    };
 };
 
 #endif // __BIGINTEGER_HPP__
