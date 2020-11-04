@@ -2,32 +2,25 @@
 BigInteger::BigInteger(int64_t a) : BigInteger()
 {
     if (a < 0)
+    {
         this->_sign = Signs::Negative;
-    a = -a;
-    uint32_t one, two;
-    one = static_cast<uint32_t>(a);
-    two = static_cast<uint32_t>(a >> 32);
-    if (two == 0)
-    {
-        this->_length = 1;
+        a = -a;
     }
-    else
-    {
-        this->_length = 2;
-    }
+    this->_length = 5;
     this->_data = new uint32_t[this->_length];
-    _data[0] = one;
-    if (this->_length == 2)
+    for (size_t i = 0; i < this->_length; i++)
     {
-        _data[1] = two;
+        this->_data[i] = a % this->__upperBound;
+        a = a / this->__upperBound;
     }
+    this->clearZeros();
 }
 
 BigInteger::BigInteger(const std::string &str) : BigInteger()
 {
     std::string buffer;
     auto end = str.rend();
-    size_t str_length = str.length();
+    size_t str_length = str.length() - std::count(str.begin(), str.end(), '_');
     if (str[0] == '-')
     {
         this->_sign = Signs::Negative;
@@ -41,18 +34,20 @@ BigInteger::BigInteger(const std::string &str) : BigInteger()
     }
     this->_data = new uint32_t[this->_length];
     size_t counter = 0;
-    for (std::string::reverse_iterator rit = str.rbegin(); rit != end; rit++)
+    for (auto rit = str.rbegin(); rit != end; rit++)
     {
-        buffer += *rit;
+        if ((*rit) == '_')
+            continue;
+        buffer = *rit + buffer;
         if (buffer.length() == this->__digitCount)
         {
-            this->_data[counter++] = static_cast<uint32_t>(std::stoul(str));
+            this->_data[counter++] = static_cast<uint32_t>(std::stoul(buffer));
             buffer.clear();
         }
     }
     if (buffer.length() != 0)
     {
-        this->_data[counter++] = static_cast<uint32_t>(std::stoul(str));
+        this->_data[counter++] = static_cast<uint32_t>(std::stoul(buffer));
         buffer.clear();
     }
 }
@@ -62,7 +57,8 @@ BigInteger::BigInteger(const BigInteger &b) : BigInteger()
     this->_sign = b._sign;
     this->_length = b._length;
     this->_data = new uint32_t[this->_length];
-    for (size_t i = 0; i < _length; i++)
+    this->isTemp = b.isTemp;
+    for (size_t i = 0; i < this->_length; i++)
     {
         this->_data[i] = b._data[i];
     }
@@ -73,9 +69,11 @@ BigInteger::BigInteger(BigInteger &&b) : BigInteger()
     this->_sign = b._sign;
     this->_length = b._length;
     this->_data = b._data;
+    this->isTemp = b.isTemp;
     b._sign = true;
     b._length = 0;
     b._data = nullptr;
+    b.isTemp = false;
 }
 
 BigInteger::BigInteger()
@@ -88,26 +86,33 @@ BigInteger::BigInteger()
 
 BigInteger &BigInteger::operator=(const BigInteger &b)
 {
+    if (this == &b)
+        return (*this);
     this->_sign = b._sign;
     this->_length = b._length;
     this->_data = new uint32_t[this->_length];
-    for (size_t i = 0; i < _length; i++)
+    this->isTemp = b.isTemp;
+    for (size_t i = 0; i < this->_length; i++)
     {
         this->_data[i] = b._data[i];
     }
+    return (*this);
 }
 
 BigInteger &BigInteger::operator=(BigInteger &&b)
 {
     if (this == &b)
-        return;
+        return (*this);
     delete[] this->_data;
     this->_sign = b._sign;
     this->_length = b._length;
     this->_data = b._data;
+    this->isTemp = b.isTemp;
     b._sign = true;
     b._length = 0;
     b._data = nullptr;
+    b.isTemp = false;
+    return (*this);
 }
 
 BigInteger &BigInteger::operator-=(const BigInteger &b)
@@ -218,11 +223,12 @@ int32_t BigInteger::compareTo(const BigInteger &b) const
         else
             return this->_sign ? -1 : 1;
     }
-    for (size_t i = 0; i < this->_length; i++)
+    for (size_t i = this->_length; i > 0; i--)
     {
-        if (this->_data[i] > b._data[i])
+        size_t index = i - 1;
+        if (this->_data[index] > b._data[index])
             return this->_sign ? 1 : -1;
-        else if (this->_data[i] < b._data[i])
+        else if (this->_data[index] < b._data[index])
             return this->_sign ? -1 : 1;
     }
     return 0;
@@ -231,25 +237,29 @@ int32_t BigInteger::compareTo(const BigInteger &b) const
 std::string BigInteger::toString() const
 {
     std::string result;
-    for (size_t i = 0; i < this->_length; i++)
+    for (size_t i = 0; i < this->_length - 1; i++)
     {
-        result = std::to_string(this->_data[i]) + result;
+        std::string temp = std::to_string(this->_data[i]);
+        temp.insert(0, this->__digitCount - temp.length(), '0');
+        result = temp + result;
     }
+    result = std::to_string(this->_data[this->_length - 1]) + result;
     if (this->_sign == Signs::Negative)
         result = '-' + result;
     return result;
 }
 
-BigInteger::BigInteger(uint32_t *data, size_t length)
+BigInteger::BigInteger(uint32_t *data, size_t length) : BigInteger()
 {
     this->_data = data;
     this->_length = length;
     this->_sign = Signs::Positive;
+    this->isTemp = true;
 }
 
 uint32_t BigInteger::getAt(size_t index) const
 {
-    if (index > this->_length)
+    if (index >= this->_length)
         return 0;
     else
         return this->_data[index];
@@ -393,37 +403,64 @@ BigInteger BigInteger::multiply(const BigInteger &mult) const
     size_t maxLength = (mult._length > this->_length ? mult._length : this->_length) - 1;
 
     if (maxLength == 0)
-        return BigInteger(this->getAt(maxLength) * mult.getAt(maxLength));
-
+    {
+        auto multi = this->getAt(maxLength) * mult.getAt(maxLength);
+        auto res = BigInteger(multi);
+        res._sign = !(this->_sign ^ mult._sign);
+        return res;
+    }
     BigInteger result;
     BigInteger a, b, c, d;
     a = BigInteger(this->getAt(maxLength));
     c = BigInteger(mult.getAt(maxLength));
     size_t b_length = (maxLength + 1) > this->_length ? this->_length : maxLength;
-    size_t d_length = (maxLength + 1) > b._length ? b._length : maxLength;
+    size_t d_length = (maxLength + 1) > mult._length ? mult._length : maxLength;
 
     b = BigInteger(this->_data, b_length);
     d = BigInteger(mult._data, d_length);
 
-    BigInteger first = (a * c).shift(2 * maxLength);
+    BigInteger first = a * c;
     BigInteger third = b * d;
-    BigInteger second = ((a + b) * (c + d) - (first + third)).shift(maxLength);
-    result = first + second + third;
+
+    BigInteger second = (a + b) * (c + d) - (first + third);
+
+    // std::cout << "First = " << first << std::endl;
+    // std::cout << "Second = " << second << std::endl;
+    // std::cout << "third = " << third << std::endl;
+    // std::cout << "Part Second = " << (a + b) * (c + d) << std::endl;
+    // std::cout << "Part Second = " << (a + b) << std::endl;
+    // std::cout << "Part Second = " << (c + d) << std::endl;
+
+    result = first.shift(2 * maxLength) + second.shift(maxLength) + third;
     result.clearZeros();
     result._sign = !(this->_sign ^ mult._sign);
     return result;
 }
 
-BigInteger::BigInteger(uint32_t *data, size_t length) : BigInteger()
+BigInteger BigInteger::shift(size_t sh) const
 {
-    this->_data = data;
-    this->_length = length;
+    if (sh == 0)
+        return BigInteger(*this);
+    BigInteger result;
+    result._sign = this->_sign;
+    result.isTemp = this->isTemp;
+    result._length = this->_length + sh;
+    result._data = new uint32_t[result._length];
+    for (size_t i = 0; i < sh; i++)
+    {
+        result._data[i] = 0;
+    }
+    for (size_t i = sh; i < result._length; i++)
+    {
+        result._data[i] = this->_data[i - sh];
+    }
+    return result;
 }
 
 BigInteger::~BigInteger()
 {
     if (this->isTemp == false)
     {
-        delete[] _data;
+        delete[] this->_data;
     }
 }

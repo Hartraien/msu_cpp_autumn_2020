@@ -2,6 +2,8 @@
 #define __BIGINTEGER_HPP__
 #include <string>
 #include <cstdint>
+#include <iostream>
+#include <algorithm>
 
 class BigInteger
 {
@@ -9,11 +11,13 @@ public:
     //Different constructors
     BigInteger(int64_t);
     BigInteger(const std::string &);
-    
+
     //Destructor
     //Does not delete data if isTemp = true
     //Used in multiply function
     ~BigInteger();
+
+    std::string toString() const;
 
     //Copy Constructor
     BigInteger(const BigInteger &);
@@ -59,7 +63,6 @@ public:
 
 protected:
     int32_t compareTo(const BigInteger &) const;
-    std::string toString() const;
     BigInteger add(const BigInteger &) const;
     BigInteger subtract(const BigInteger &) const;
     BigInteger multiply(const BigInteger &) const;
@@ -77,9 +80,7 @@ private:
     size_t _length;
     bool isTemp;
 
-    const uint32_t __bitmask = (1 << __bitshift) - 1;
     const uint32_t __digitCount = 4;
-    const uint32_t __bitshift = 16;
     const uint32_t __upperBound = 10000;
 
     enum Signs : bool

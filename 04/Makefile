@@ -9,16 +9,13 @@ all: test.out
 test: test.out
 	./test.out
 
-test.out: test.cpp Matrix.o  MatrixRow.o MatrixTester.o
+test.out: test.cpp BigInteger.o BigIntegerTester.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-MatrixTester.o: MatrixTester.cpp
+BigIntegerTester.o: BigIntegerTester.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-Matrix.o: Matrix.cpp
-	$(CC) $(CFLAGS) -c $^ -o $@
-
-MatrixRow.o: MatrixRow.cpp
+BigInteger.o: BigInteger.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 
