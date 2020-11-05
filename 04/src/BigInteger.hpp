@@ -21,7 +21,7 @@ public:
     BigInteger(BigInteger &&);
 
     //Destructor
-    //Does not delete data if isTemp = true
+    //Does not delete data if isTemp_ = true
     //(Such BigIntegers are constructed in multiply function by BigInteger(uint32_t *, size_t) constructor, unaccessible outside of class)
     ~BigInteger();
 
@@ -74,7 +74,7 @@ protected:
     //Implements multiplication of "this" and "arg" using Karatsuba algorithm
     BigInteger multiply(const BigInteger &) const;
 
-    //Inserts "arg" zeroes at the beginning of _data
+    //Inserts "arg" zeroes at the beginning of data_
     //Used in multiply method
     BigInteger shift(size_t) const;
 
@@ -86,29 +86,29 @@ private:
     BigInteger(uint32_t *, size_t);
     //Default constructor, used in other constructors
     BigInteger();
-    //Returns element of _data at "index" or 0 if "index" is out of range
+    //Returns element of data_ at "index" or 0 if "index" is out of range
     uint32_t getAt(size_t) const;
     //Removes leading zeroes
     //Example: 0_0001 -> 1
     void clearZeros();
 
 private:
-    //The number stored. It is stored unsigned, see _sign for sign of number
-    uint32_t *_data;
+    //The number stored. It is stored unsigned, see sign_ for sign of number
+    uint32_t *data_;
     //Sign of the number
-    bool _sign;
-    //length of _data
-    size_t _length;
-    //Whether it points to _data of another BigInteger
+    bool sign_;
+    //length of data_
+    size_t length_;
+    //Whether it points to data_ of another BigInteger
     //Such BigIntegers are constructed in multiply function
-    bool isTemp;
+    bool isTemp_;
 
-    //How much digits of number are stored per uint32_t in _data
+    //How much digits of number are stored per uint32_t in data_
     //Used in toString() method and BigInteger(string) constructor
-    const uint32_t __digitCount = 4;
-    //Max value to store in each uint32_t within _data
+    const uint32_t digitCount__ = 4;
+    //Max value to store in each uint32_t within data_
     //Should be a power of 10 and it's square should be storable in uint32_t
-    const uint32_t __upperBound = 10000;
+    const uint32_t upperBound__ = 10000;
 
     //Enum for number signs
     enum Signs : bool
