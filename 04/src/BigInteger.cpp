@@ -141,66 +141,6 @@ BigInteger BigInteger::operator-() const
     return result;
 }
 
-bool operator>(const BigInteger &a, int b)
-{
-    return (a > BigInteger(b));
-}
-
-bool operator<(const BigInteger &a, int b)
-{
-    return (a < BigInteger(b));
-}
-
-bool operator>=(const BigInteger &a, int b)
-{
-    return (a == BigInteger(b));
-}
-
-bool operator<=(const BigInteger &a, int b)
-{
-    return (a <= BigInteger(b));
-}
-
-bool operator!=(const BigInteger &a, int b)
-{
-    return (a != BigInteger(b));
-}
-
-bool operator==(const BigInteger &a, int b)
-{
-    return (a == BigInteger(b));
-}
-
-bool operator>(int a, const BigInteger &b)
-{
-    return (BigInteger(a) > b);
-}
-
-bool operator<(int a, const BigInteger &b)
-{
-    return (BigInteger(a) < b);
-}
-
-bool operator>=(int a, const BigInteger &b)
-{
-    return (BigInteger(a) >= b);
-}
-
-bool operator<=(int a, const BigInteger &b)
-{
-    return (BigInteger(a) <= b);
-}
-
-bool operator!=(int a, const BigInteger &b)
-{
-    return (BigInteger(a) != b);
-}
-
-bool operator==(int a, const BigInteger &b)
-{
-    return (BigInteger(a) == b);
-}
-
 BigInteger &BigInteger::operator+=(const BigInteger &b)
 {
     (*this) = (*this) + b;
@@ -237,6 +177,8 @@ int32_t BigInteger::compareTo(const BigInteger &b) const
 std::string BigInteger::toString() const
 {
     std::string result;
+    if (this->_length == 0)
+        return result;
     for (size_t i = 0; i < this->_length - 1; i++)
     {
         std::string temp = std::to_string(this->_data[i]);

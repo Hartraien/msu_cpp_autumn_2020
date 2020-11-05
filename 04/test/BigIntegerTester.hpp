@@ -8,7 +8,6 @@ class BigIntegerTester
 {
 public:
     void test_constructors();
-    void test_output();
     void test_comparators();
     void test_arithmetic();
 
@@ -16,6 +15,7 @@ public:
     void test_comparison_BI_I();
     void test_comparison_I_BI();
 
+    void test_unary_minus();
     void test_addition();
     void test_subtraction();
     void test_multiplication();
