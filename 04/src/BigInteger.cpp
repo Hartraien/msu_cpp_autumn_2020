@@ -346,20 +346,20 @@ BigInteger operator*(const BigInteger &a, const BigInteger &b)
 
 BigInteger BigInteger::multiply(const BigInteger &mult) const
 {
-    size_t maxLength = (mult._length > this->_length ? mult._length : this->_length) - 1;
+    size_t maxIndex = (mult._length > this->_length ? mult._length : this->_length) - 1;
 
-    if (maxLength == 0)
+    if (maxIndex == 0)
     {
-        BigInteger res = BigInteger(this->getAt(maxLength) * mult.getAt(maxLength));
+        BigInteger res = BigInteger(this->getAt(maxIndex) * mult.getAt(maxIndex));
         res.setSign(!(this->_sign ^ mult._sign));
         return res;
     }
     BigInteger result;
     BigInteger a, b, c, d;
-    a = BigInteger(this->getAt(maxLength));
-    c = BigInteger(mult.getAt(maxLength));
-    size_t b_length = (maxLength + 1) > this->_length ? this->_length : maxLength;
-    size_t d_length = (maxLength + 1) > mult._length ? mult._length : maxLength;
+    a = BigInteger(this->getAt(maxIndex));
+    c = BigInteger(mult.getAt(maxIndex));
+    size_t b_length = (maxIndex + 1) > this->_length ? this->_length : maxIndex;
+    size_t d_length = (maxIndex + 1) > mult._length ? mult._length : maxIndex;
 
     b = BigInteger(this->_data, b_length);
     d = BigInteger(mult._data, d_length);
@@ -369,7 +369,7 @@ BigInteger BigInteger::multiply(const BigInteger &mult) const
 
     BigInteger second = (a + b) * (c + d) - (first + third);
 
-    result = first.shift(2 * maxLength) + second.shift(maxLength) + third;
+    result = first.shift(2 * maxIndex) + second.shift(maxIndex) + third;
     result.clearZeros();
     result.setSign(!(this->_sign ^ mult._sign));
     return result;

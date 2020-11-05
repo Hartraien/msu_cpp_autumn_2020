@@ -71,7 +71,7 @@ protected:
     BigInteger add(const BigInteger &) const;
     //Implements subtraction of "arg" from "this"
     BigInteger subtract(const BigInteger &) const;
-    //Implements multiplication of "this" and "arg"
+    //Implements multiplication of "this" and "arg" using Karatsuba algorithm
     BigInteger multiply(const BigInteger &) const;
 
     //Inserts "arg" zeroes at the beginning of _data
