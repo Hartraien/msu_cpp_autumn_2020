@@ -1,9 +1,10 @@
 #include "BigInteger.hpp"
 BigInteger::BigInteger(int64_t a) : BigInteger()
 {
+    bool sign = Signs::Positive;
     if (a < 0)
     {
-        this->_sign = Signs::Negative;
+        sign = Signs::Negative;
         a = -a;
     }
     this->_length = 5;
@@ -14,16 +15,18 @@ BigInteger::BigInteger(int64_t a) : BigInteger()
         a = a / this->__upperBound;
     }
     this->clearZeros();
+    this->setSign(sign);
 }
 
 BigInteger::BigInteger(const std::string &str) : BigInteger()
 {
+    bool sign = Signs::Positive;
     std::string buffer;
     auto end = str.rend();
     size_t str_length = str.length() - std::count(str.begin(), str.end(), '_');
     if (str[0] == '-')
     {
-        this->_sign = Signs::Negative;
+        sign = Signs::Negative;
         end -= 1;
         str_length -= 1;
     }
@@ -50,6 +53,7 @@ BigInteger::BigInteger(const std::string &str) : BigInteger()
         this->_data[counter++] = static_cast<uint32_t>(std::stoul(buffer));
         buffer.clear();
     }
+    this->setSign(sign);
 }
 
 BigInteger::BigInteger(const BigInteger &b) : BigInteger()
@@ -136,8 +140,7 @@ std::ostream &operator<<(std::ostream &os, const BigInteger &b)
 BigInteger BigInteger::operator-() const
 {
     BigInteger result(*this);
-    if (result != 0)
-        result._sign = !result._sign;
+    result.setSign(!result._sign);
     return result;
 }
 
@@ -312,6 +315,7 @@ BigInteger BigInteger::subtract(const BigInteger &b) const
         result._data[i] = temp;
     }
     result.clearZeros();
+    result.setSign(this->_sign);
     return result;
 }
 
@@ -321,7 +325,6 @@ BigInteger BigInteger::add(const BigInteger &b) const
     uint32_t carry_over = 0;
 
     BigInteger result;
-    result._sign = this->_sign;
     result._length = maxLength;
     result._data = new uint32_t[result._length];
 
@@ -332,6 +335,7 @@ BigInteger BigInteger::add(const BigInteger &b) const
         carry_over = temp / result.__upperBound;
     }
     result.clearZeros();
+    result.setSign(this->_sign);
     return result;
 }
 
@@ -346,9 +350,8 @@ BigInteger BigInteger::multiply(const BigInteger &mult) const
 
     if (maxLength == 0)
     {
-        auto multi = this->getAt(maxLength) * mult.getAt(maxLength);
-        auto res = BigInteger(multi);
-        res._sign = !(this->_sign ^ mult._sign);
+        BigInteger res = BigInteger(this->getAt(maxLength) * mult.getAt(maxLength));
+        res.setSign(!(this->_sign ^ mult._sign));
         return res;
     }
     BigInteger result;
@@ -366,16 +369,9 @@ BigInteger BigInteger::multiply(const BigInteger &mult) const
 
     BigInteger second = (a + b) * (c + d) - (first + third);
 
-    // std::cout << "First = " << first << std::endl;
-    // std::cout << "Second = " << second << std::endl;
-    // std::cout << "third = " << third << std::endl;
-    // std::cout << "Part Second = " << (a + b) * (c + d) << std::endl;
-    // std::cout << "Part Second = " << (a + b) << std::endl;
-    // std::cout << "Part Second = " << (c + d) << std::endl;
-
     result = first.shift(2 * maxLength) + second.shift(maxLength) + third;
     result.clearZeros();
-    result._sign = !(this->_sign ^ mult._sign);
+    result.setSign(!(this->_sign ^ mult._sign));
     return result;
 }
 
@@ -397,6 +393,14 @@ BigInteger BigInteger::shift(size_t sh) const
         result._data[i] = this->_data[i - sh];
     }
     return result;
+}
+
+void BigInteger::setSign(bool sign)
+{
+    if ((this->_length == 1) && (this->_data[0] == 0))
+        this->_sign = Signs::Positive;
+    else
+        this->_sign = sign;
 }
 
 BigInteger::~BigInteger()

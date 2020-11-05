@@ -65,10 +65,12 @@ void BigIntegerTester::test_comparators()
 void BigIntegerTester::test_arithmetic()
 {
     std::cout << "Arithemtic operations to be tested:" << std::endl;
+    std::cout << "             operator- (unary)" << std::endl;
     std::cout << "             operator+" << std::endl;
     std::cout << "             operator-" << std::endl;
     std::cout << "             operator*" << std::endl;
 
+    this->test_unary_minus();
     this->test_addition();
     this->test_subtraction();
     this->test_multiplication();
@@ -137,9 +139,12 @@ void BigIntegerTester::test_comparison_I_BI()
 void BigIntegerTester::test_unary_minus()
 {
     BigInteger first("3214");
+    BigInteger second("0");
 
     assert((-first).toString() == "-3214");
     assert((-(-first)).toString() == first.toString());
+
+    assert(second == -second);
 }
 
 void BigIntegerTester::test_addition()
@@ -155,6 +160,8 @@ void BigIntegerTester::test_addition()
     a = BigInteger("123456789");
     b = BigInteger("987654321");
     assert((a + b) == BigInteger("1111111110"));
+
+    assert((-a + -b) == BigInteger("-1111111110"));
 }
 
 void BigIntegerTester::test_subtraction()
@@ -186,4 +193,5 @@ void BigIntegerTester::test_multiplication()
     a = BigInteger("123456789");
     b = BigInteger("987654321");
     assert((a * b) == BigInteger("121932631112635269"));
+    assert((a * -b) == BigInteger("-121932631112635269"));
 }

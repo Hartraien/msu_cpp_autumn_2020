@@ -78,6 +78,8 @@ protected:
     //Used in multiply method
     BigInteger shift(size_t) const;
 
+    void setSign(bool);
+
 private:
     //Constructs a view of another BigInteger's data with shortened length
     //Used in multiply method
