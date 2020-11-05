@@ -19,6 +19,7 @@ public:
     void test_addition();
     void test_subtraction();
     void test_multiplication();
+    void test_complex_operations();
 };
 
 #endif // __BIGINTEGERTESTER_HPP__

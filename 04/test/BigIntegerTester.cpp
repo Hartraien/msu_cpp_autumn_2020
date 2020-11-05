@@ -69,11 +69,13 @@ void BigIntegerTester::test_arithmetic()
     std::cout << "             operator+" << std::endl;
     std::cout << "             operator-" << std::endl;
     std::cout << "             operator*" << std::endl;
+    std::cout << "             and their composition" << std::endl;
 
     this->test_unary_minus();
     this->test_addition();
     this->test_subtraction();
     this->test_multiplication();
+    this->test_complex_operations();
 
     std::cout << "Arithemtic operations tested successfully" << std::endl
               << std::endl;
@@ -194,4 +196,16 @@ void BigIntegerTester::test_multiplication()
     b = BigInteger("987654321");
     assert((a * b) == BigInteger("121932631112635269"));
     assert((a * -b) == BigInteger("-121932631112635269"));
+}
+
+void BigIntegerTester::test_complex_operations()
+{
+    BigInteger first("20");
+    BigInteger second("31415212314");
+    BigInteger third("-2");
+    BigInteger fourth("-17264814");
+    int fifth = 75;
+    int sixth = -17;
+    BigInteger result = (first + second) * fifth - (third * fourth) * sixth;
+    assert(result == BigInteger("2356727928726"));
 }
