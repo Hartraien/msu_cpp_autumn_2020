@@ -7,6 +7,11 @@ struct Data
     uint64_t a;
     bool b;
     int c;
+    template <class Serializer>
+    Error serialize(Serializer &serializer)
+    {
+        return serializer(a, b, c);
+    }
 };
 
 int main()
