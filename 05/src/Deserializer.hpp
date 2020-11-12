@@ -19,8 +19,6 @@ private:
 
 private:
     std::istream &in_;
-    inline static const std::string error_string = "!";
-    inline static const std::string Separator = " ";
 };
 
 template <class T>
@@ -40,12 +38,13 @@ Error Deserializer::process(T &arg1, ArgsT &... args)
 {
     static_assert((std::is_same<T, bool>::value || std::is_same<T, uint64_t>::value), "Wrong type of argument: T is neither bool nor uint64_t");
     std::string res;
+    if (!(this->in_ >> res))
+    {
+        this->in_.clear();
+        return Error::CorruptedArchive;
+    }
     if (typeid(arg1) == typeid(bool))
     {
-        if (!(this->in_ >> res))
-        {
-            return Error::CorruptedArchive;
-        }
         if (res == "true")
         {
             arg1 = true;
@@ -61,10 +60,6 @@ Error Deserializer::process(T &arg1, ArgsT &... args)
     }
     else if (typeid(arg1) == typeid(uint64_t))
     {
-        if (!(this->in_ >> res))
-        {
-            return Error::CorruptedArchive;
-        }
         if (res.find_first_not_of("0123456789") == std::string::npos)
         {
             std::istringstream iss(res);

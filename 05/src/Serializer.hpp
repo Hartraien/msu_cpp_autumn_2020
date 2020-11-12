@@ -34,10 +34,6 @@ Error Serializer::operator()(ArgsT... args)
     std::string res = this->process(args...);
     if (res.find(this->error_string) == std::string::npos)
     {
-        if (res.length() > 0)
-        {
-            res = res.substr(0, res.length() - 1);
-        }
         this->out_ << res;
         return Error::NoError;
     }

@@ -9,8 +9,11 @@ all: test.out
 test: test.out
 	./test.out
 
-test.out: test.cpp Serializer.o Deserializer.o
+test.out: test.cpp Serializer.o Deserializer.o SerializerTester.o
 	$(CC) $(CFLAGS) $^ -o $@
+
+SerializerTester.o: SerializerTester.cpp
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 Serializer.o: Serializer.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
