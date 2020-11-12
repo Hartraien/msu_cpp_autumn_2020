@@ -1,6 +1,6 @@
 CC = g++
 
-CFLAGS = -std=c++17 -g -Wall
+CFLAGS = -std=c++17 -g -Wall -O1
 
 VPATH = ./src:./test
 
@@ -9,16 +9,14 @@ all: test.out
 test: test.out
 	./test.out
 
-test.out: test.cpp BigInteger.o BigIntegerTester.o
+test.out: test.cpp Serializer.o Deserializer.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-BigIntegerTester.o: BigIntegerTester.cpp
+Serializer.o: Serializer.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-BigInteger.o: BigInteger.cpp
+Deserializer.o: Deserializer.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
-
-
 
 clean:
 	rm -rf *.o

@@ -1,15 +1,6 @@
 #ifndef __SERIALIZER_HPP__
 #define __SERIALIZER_HPP__
-#include <iostream>
-#include <cstdint>
-#include <typeinfo>
-#include <string>
-
-enum class Error
-{
-    NoError,
-    CorruptedArchive
-};
+#include "SerializerDeserializerCommonIncludes.hpp"
 
 class Serializer
 {
@@ -59,6 +50,7 @@ Error Serializer::operator()(ArgsT... args)
 template <class T, class... ArgsT>
 std::string Serializer::process(T arg1, ArgsT... args)
 {
+    static_assert((std::is_same<T, bool>::value || std::is_same<T, uint64_t>::value), "Wrong type of argument: T is neither bool nor uint64_t");
     std::string res = "";
     if (typeid(arg1) == typeid(bool))
     {
@@ -74,10 +66,6 @@ std::string Serializer::process(T arg1, ArgsT... args)
     else if (typeid(arg1) == typeid(uint64_t))
     {
         res = std::to_string(arg1) + this->Separator;
-    }
-    else
-    {
-        return "!";
     }
     return res + this->process(args...);
 }
