@@ -9,6 +9,12 @@ all: test.out
 test: test.out
 	./test.out
 
+test_compile_error: test_compile_error.out
+	./test_compile_error.out
+
+test_compile_error.out: test_compile_error.cpp Serializer.o Deserializer.o
+	$(CC) $(CFLAGS) $^ -o $@
+
 test.out: test.cpp Serializer.o Deserializer.o SerializerTester.o
 	$(CC) $(CFLAGS) $^ -o $@
 

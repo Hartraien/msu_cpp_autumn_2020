@@ -105,7 +105,7 @@ void SerializerTester::test_serializer_empty()
 
 void SerializerTester::test_deserializer()
 {
-    std::cout << "Testing deserializer" << std::endl;
+    std::cout << "Testing deserializer (correct arguments)" << std::endl;
     std::stringstream stream;
 
     Test_class_small ex1(0, false, 0);
@@ -118,7 +118,27 @@ void SerializerTester::test_deserializer()
 
     assert(err == Error::NoError);
     assert(ex1_deserial == ex1.to_string());
-    std::cout << "Successfully tested deserializer" << std::endl
+    std::cout << "Successfully tested deserializer for case of correct arguments" << std::endl
+              << std::endl;
+}
+
+void SerializerTester::test_deserializer_failure()
+{
+    std::cout << "Testing deserializer (incorrect arguments)" << std::endl;
+    std::stringstream stream;
+
+    Test_class_small ex1(0, false, 0);
+    std::string ex1_deserial = "a true 4 ";
+    std::string ex1_values = "0 false 0 ";
+
+    stream << ex1_deserial;
+
+    Deserializer deserializer(stream);
+    Error err = deserializer.load(ex1);
+
+    assert(err == Error::CorruptedArchive);
+    assert(ex1_values == ex1.to_string());
+    std::cout << "Successfully tested deserializer for case of incorrect arguments" << std::endl
               << std::endl;
 }
 
@@ -233,7 +253,11 @@ void SerializerTester::run_tests()
     this->test_serializer();
     this->test_serializer_empty();
     this->test_deserializer();
+    this->test_deserializer_failure();
     this->test_serial_deserial();
     this->test_serializer_several();
     this->test_serializer_consecutive();
+
+    std::cout << "Command to test that wrong types (not uint64_t and not bool) of serializer arguments lead to compile error" << std::endl;
+    std::cout << "\"make test_compile_error\" (without quotes)" << std::endl;
 }

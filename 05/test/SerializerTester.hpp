@@ -12,6 +12,7 @@ public:
     void test_serializer();
     void test_serializer_empty();
     void test_deserializer();
+    void test_deserializer_failure();
     void test_serial_deserial();
     void test_serializer_several();
     void test_serializer_consecutive();
