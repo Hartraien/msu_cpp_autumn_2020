@@ -17,6 +17,7 @@ void FormatterTester::test_valid()
     this->test_valid_excess_zeros();
     this->test_valid_excess_arg();
     this->test_valid_custom_class();
+    this->test_valid_insert_braces();
 }
 
 void FormatterTester::test_exception_no_pair()
@@ -123,15 +124,21 @@ void FormatterTester::test_valid_custom_class()
     FormatterTester::custom c;
     auto text = format("Custom class print = \"{0}\"", c);
     std::string expected = "Custom class print = \"This is custom class output\"";
-    std::cout << std::endl
-              << std::endl
-              << "Got this " << text << std::endl
-              << "Got this " << expected << std::endl
-              << std::endl
-              << std::endl;
     assert(text == expected);
 
     std::cout << "Successfully tested for case with custom class" << std::endl
+              << std::endl;
+}
+
+void FormatterTester::test_valid_insert_braces()
+{
+    std::cout << "Testing valid case with inserting braces and pseudo format numbers" << std::endl
+              << "\"format(\"{0}{0} {0}\", \"{1}\", 2)\"" << std::endl;
+
+    auto text = format("{0}{0} {0}", "{1}", 2);
+    assert(text == "{1}{1} {1}");
+
+    std::cout << "Successfully tested for case with inserting braces and pseudo numbers" << std::endl
               << std::endl;
 }
 

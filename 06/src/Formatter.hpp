@@ -10,34 +10,50 @@
 class Formatter
 {
 public:
+    //Constructor that saves the copy of format string and number of variadic arguments
     Formatter(const std::string &, size_t);
+
+    // converts all variadic arguments to their string representation
+    // and inserts them into format string
     template <class... ArgsT>
     std::string process(const ArgsT &...);
 
 private:
+    //converts each argument in varidic arguments to string and stores the result in vector
     template <class T, class... ArgsT>
     void argsToVectorImpl(std::vector<std::string> &, const T &, const ArgsT &...);
+
+    // End of recursive function
     void argsToVectorImpl(std::vector<std::string> &);
 
+    // creates vector to store string representations of each variadic argument
     template <class... ArgsT>
     std::vector<std::string> argsToVector(const ArgsT &...);
 
+    //inserts string representations of each variadic argument into their corresponding places
     void insert(const std::vector<std::string> &);
 
+    // Converts string within braces into size_t number of argument
     inline size_t strToSizeT(const std::string &, size_t);
 
+    // converts argument of template class T to string using stringsream
     template <class T>
     std::string to_string(const T &);
 
-    size_t str_base_pos(const std::string&, size_t);
+    // find position of substring in unedited format string
+    // used in exceptions
+    size_t str_base_pos(const std::string &, size_t);
 
 private:
     const std::string start_symbol_ = "{";
     const std::string end_symbol_ = "}";
     const std::string search_symbols_ = this->start_symbol_ + this->end_symbol_;
 
+    //string that is to be formated
     std::string str_;
+    // number of variadic arguments
     size_t n_args_;
+    // copy of format string, used for exceptions
     std::string str_base_;
 };
 

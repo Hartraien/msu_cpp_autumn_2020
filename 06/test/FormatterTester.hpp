@@ -22,6 +22,7 @@ public:
     void test_valid_excess_zeros();
     void test_valid_excess_arg();
     void test_valid_custom_class();
+    void test_valid_insert_braces();
 
     void test_exception_no_pair_instant();
     void test_exception_no_pair_not_instant();
