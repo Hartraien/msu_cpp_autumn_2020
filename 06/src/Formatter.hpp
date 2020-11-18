@@ -3,7 +3,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <iostream>
+#include "./exc/NotaNumber.hpp"
+#include "./exc/WrongTemplateString.hpp"
+#include "./exc/TooLargeArgument.hpp"
 
 class Formatter
 {
@@ -22,17 +24,21 @@ private:
 
     void insert(const std::vector<std::string> &);
 
-    inline size_t strToSizeT(const std::string &);
+    inline size_t strToSizeT(const std::string &, size_t);
 
     template <class T>
     std::string to_string(const T &);
 
+    size_t str_base_pos(const std::string&, size_t);
+
+private:
     const std::string start_symbol_ = "{";
     const std::string end_symbol_ = "}";
     const std::string search_symbols_ = this->start_symbol_ + this->end_symbol_;
 
     std::string str_;
     size_t n_args_;
+    std::string str_base_;
 };
 
 template <class... ArgsT>
