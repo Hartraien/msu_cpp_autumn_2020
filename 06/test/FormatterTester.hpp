@@ -13,6 +13,7 @@ public:
     void test_exception_no_pair();
     void test_exception_wrong_order();
     void test_exception_not_a_number();
+    void test_too_large_number();
     void test_exception_too_large_argument();
 
     void test_valid_simple();
@@ -33,13 +34,15 @@ public:
     void test_exception_not_a_number_no_digits();
     void test_exception_not_a_number_with_digits();
 
+    void test_too_large_number_impl();
+
     void test_exception_too_large_argument_pos();
     void test_exception_too_large_argument_neg();
 
 public:
     class custom
     {
-        public:
+    public:
         friend std::ostream &operator<<(std::ostream &stream, const custom &inst);
     };
 };

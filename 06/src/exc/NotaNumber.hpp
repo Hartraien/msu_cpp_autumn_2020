@@ -7,7 +7,8 @@ class NotaNumberException : public std::exception
     std::string msg_;
 
 public:
-    NotaNumberException(const std::string &str, size_t pos) {
+    NotaNumberException(const std::string &str, size_t pos)
+    {
         this->msg_ = str + " at index " + std::to_string(pos) + " is not a number";
     }
 

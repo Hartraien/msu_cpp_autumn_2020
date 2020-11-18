@@ -5,6 +5,7 @@ void FormatterTester::test()
     this->test_exception_no_pair();
     this->test_exception_wrong_order();
     this->test_exception_not_a_number();
+    this->test_too_large_number();
     this->test_exception_too_large_argument();
 }
 
@@ -36,6 +37,11 @@ void FormatterTester::test_exception_not_a_number()
 {
     this->test_exception_not_a_number_no_digits();
     this->test_exception_not_a_number_with_digits();
+}
+
+void FormatterTester::test_too_large_number()
+{
+    this->test_too_large_number_impl();
 }
 
 void FormatterTester::test_exception_too_large_argument()
@@ -256,9 +262,29 @@ void FormatterTester::test_exception_not_a_number_with_digits()
               << std::endl;
 }
 
+void FormatterTester::test_too_large_number_impl()
+{
+    std::cout << "Testing exception throwing for case with too large format number (larger than max value for unsigned long long)" << std::endl
+              << "\"format(\"Printing {0} {18446744073709551616}\", 1)\"" << std::endl;
+    std::string res;
+    std::string expected = "Number 18446744073709551616 at index 14 is too large";
+    try
+    {
+        auto text = format("Printing {0} {18446744073709551616}", 1, 2);
+    }
+    catch (const TooLargeNumberException &e)
+    {
+        res = e.what();
+        std::cout << res << std::endl;
+    }
+    assert(res == expected);
+    std::cout << "Successfully tested exception throwing for case with too large format number (larger than max value for unsigned long long)" << std::endl
+              << std::endl;
+}
+
 void FormatterTester::test_exception_too_large_argument_pos()
 {
-    std::cout << "Testing exception throwing for case with too large format number (positive)" << std::endl
+    std::cout << "Testing exception throwing for case with positive format number larger or equal to number of arguments" << std::endl
               << "\"format(\"Printing {0} {1} {2}\", 1)\"" << std::endl;
     std::string res;
     std::string expected = "Format value (2) at position 14 is larger or equal to number of arguments (2)";
@@ -271,13 +297,13 @@ void FormatterTester::test_exception_too_large_argument_pos()
         res = e.what();
     }
     assert(res == expected);
-    std::cout << "Successfully tested exception throwing for case with too large format number (positive)" << std::endl
+    std::cout << "Successfully tested exception throwing for case with positive format number larger or equal to number of arguments" << std::endl
               << std::endl;
 }
 
 void FormatterTester::test_exception_too_large_argument_neg()
 {
-    std::cout << "Testing exception throwing for case with too large format number (negative)" << std::endl
+    std::cout << "Testing exception throwing for case with negative format number larger (by absolute value) than number of arguments" << std::endl
               << "\"format(\"Printing {0} {1} {-3}\", 1)\"" << std::endl;
     std::string res;
     std::string expected = "Format value (3) at position 14 is larger or equal to number of arguments (2)";
@@ -290,7 +316,7 @@ void FormatterTester::test_exception_too_large_argument_neg()
         res = e.what();
     }
     assert(res == expected);
-    std::cout << "Successfully tested exception throwing for case with too large format number (negative)" << std::endl
+    std::cout << "Successfully tested exception throwing for case with negative format number larger (by absolute value) than number of arguments" << std::endl
               << std::endl;
 }
 

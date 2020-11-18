@@ -6,6 +6,7 @@
 #include "./exc/NotaNumber.hpp"
 #include "./exc/WrongTemplateString.hpp"
 #include "./exc/TooLargeArgument.hpp"
+#include"./exc/TooLargeNumber.hpp"
 
 class Formatter
 {

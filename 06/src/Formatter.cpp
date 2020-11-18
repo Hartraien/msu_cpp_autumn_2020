@@ -58,10 +58,18 @@ void Formatter::insert(const std::vector<std::string> &insert_values)
 inline size_t Formatter::strToSizeT(const std::string &str, size_t pos)
 {
     size_t res = 0;
-    int error = sscanf(str.c_str(), "%zu", &res);
-    if (error != 1)
+    size_t symbol_count = 0;
+    try
     {
-        throw NotaNumberException(str, pos);
+        res = std::stoull(str, &symbol_count, 10);
+    }
+    catch (const std::logic_error &e)
+    {
+        throw TooLargeNumberException(str, pos);
+    }
+    if (symbol_count != str.length())
+    {
+        throw TooLargeNumberException(str, pos);
     }
     return res;
 }
