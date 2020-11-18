@@ -269,7 +269,6 @@ void FormatterTester::test_exception_too_large_argument_pos()
     catch (const TooLargeArgumentException &e)
     {
         res = e.what();
-        std::cout << res << std::endl;
     }
     assert(res == expected);
     std::cout << "Successfully tested exception throwing for case with too large format number (positive)" << std::endl
@@ -289,7 +288,6 @@ void FormatterTester::test_exception_too_large_argument_neg()
     catch (const TooLargeArgumentException &e)
     {
         res = e.what();
-        std::cout << res << std::endl;
     }
     assert(res == expected);
     std::cout << "Successfully tested exception throwing for case with too large format number (negative)" << std::endl
