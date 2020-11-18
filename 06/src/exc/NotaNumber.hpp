@@ -4,16 +4,16 @@
 
 class NotaNumberException : public std::exception
 {
-    std::string _msg;
+    std::string msg_;
 
 public:
     NotaNumberException(const std::string &str, size_t pos) {
-        this->_msg = str + " at index " + std::to_string(pos) + " is not a number";
+        this->msg_ = str + " at index " + std::to_string(pos) + " is not a number";
     }
 
     virtual const char *what() const noexcept override
     {
-        return _msg.c_str();
+        return msg_.c_str();
     }
 };
 

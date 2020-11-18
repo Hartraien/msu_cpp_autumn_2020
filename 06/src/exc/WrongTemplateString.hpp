@@ -4,14 +4,14 @@
 
 class WrongTemplateStringException : public std::exception
 {
-    std::string _msg;
+    std::string msg_;
 
 public:
-    WrongTemplateStringException(const std::string &msg) : _msg(msg) {}
+    WrongTemplateStringException(const std::string &msg) : msg_(msg) {}
 
     virtual const char *what() const noexcept override
     {
-        return _msg.c_str();
+        return msg_.c_str();
     }
 };
 

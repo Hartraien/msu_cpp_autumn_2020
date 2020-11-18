@@ -4,17 +4,17 @@
 
 class TooLargeArgumentException : public std::exception
 {
-    std::string _msg;
+    std::string msg_;
 
 public:
     TooLargeArgumentException(const size_t &pos, const size_t &val, const size_t &max_val)
     {
-        this->_msg = "Format value (" + std::to_string(val) + ") at position " + std::to_string(pos) + " is larger or equal to number of arguments (" + std::to_string(max_val) + ")";
+        this->msg_ = "Format value (" + std::to_string(val) + ") at position " + std::to_string(pos) + " is larger or equal to number of arguments (" + std::to_string(max_val) + ")";
     }
 
     virtual const char *what() const noexcept override
     {
-        return _msg.c_str();
+        return msg_.c_str();
     }
 };
 
