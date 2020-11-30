@@ -166,9 +166,10 @@ constexpr CVector<T>::size_type CVector<T>::size() const
 template <class T>
 void CVector<T>::clear()
 {
-    for (size_type i = this->size_; i > 0; i--)
+    while (this->size_ > 0)
     {
-        
+        container_[size_ - 1].~T();
+        --size_;
     }
 }
 
