@@ -18,7 +18,7 @@ public:
 };
 
 template <class T>
-CAllocator<T>::pointer CAllocator<T>::allocate(size_type n)
+typename CAllocator<T>::pointer CAllocator<T>::allocate(size_type n)
 {
     if (n > std::numeric_limits<std::size_t>::max() / sizeof(T))
         throw std::bad_alloc();
