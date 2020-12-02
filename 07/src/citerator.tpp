@@ -1,37 +1,37 @@
 template <class T>
 typename CVector<T>::CIterator::reference CVector<T>::CIterator::operator*()
 {
-    return *(this->vec_pointer)[this->index];
+    return *(this->vec_pointer + this->index);
 }
 
 template <class T>
 typename CVector<T>::CIterator::const_reference CVector<T>::CIterator::operator*() const
 {
-    return *(this->vec_pointer)[this->index];
+    return *(this->vec_pointer + this->index);
 }
 
 template <class T>
 typename CVector<T>::CIterator::pointer CVector<T>::CIterator::operator->()
 {
-    return &((*vec_pointer)[this->index]);
+    return this->vec_pointer + this->index;
 }
 
 template <class T>
 typename CVector<T>::CIterator::const_pointer CVector<T>::CIterator::operator->() const
 {
-    return &((*vec_pointer)[this->index]);
+    return this->vec_pointer + this->index;
 }
 
 template <class T>
 typename CVector<T>::CIterator::reference CVector<T>::CIterator::operator[](int m)
 {
-    return (*(this->vec_pointer))[this->index + m];
+    return *(this->vec_pointer + this->index + m);
 }
 
 template <class T>
 typename CVector<T>::CIterator::const_reference CVector<T>::CIterator::operator[](int m) const
 {
-    return (*(this->vec_pointer))[this->index + m];
+    return *(this->vec_pointer + this->index + m);
 }
 
 template <class T>
@@ -44,7 +44,7 @@ typename CVector<T>::CIterator &CVector<T>::CIterator::operator++()
 template <class T>
 typename CVector<T>::CIterator &CVector<T>::CIterator::operator--()
 {
-    ++this->index;
+    --this->index;
     return *this;
 }
 
@@ -100,38 +100,38 @@ typename CVector<T>::CIterator::difference_type CVector<T>::CIterator::operator-
     return this->index - second.index;
 }
 
-template<class T>
-bool CVector<T>::CIterator::operator<(CIterator const &second) const
+template <class T>
+bool CVector<T>::CIterator::operator<(const CIterator &second) const
 {
     return this->index < second.index;
 }
 
-template<class T>
-bool CVector<T>::CIterator::operator<=(CIterator const &second) const
+template <class T>
+bool CVector<T>::CIterator::operator<=(const CIterator &second) const
 {
     return this->index <= second.index;
 }
 
-template<class T>
-bool CVector<T>::CIterator::operator>(CIterator const &second) const
+template <class T>
+bool CVector<T>::CIterator::operator>(const CIterator &second) const
 {
     return this->index > second.index;
 }
 
-template<class T>
-bool CVector<T>::CIterator::operator>=(CIterator const &second) const
+template <class T>
+bool CVector<T>::CIterator::operator>=(const CIterator &second) const
 {
     return this->index >= second.index;
 }
 
-template<class T>
-bool CVector<T>::CIterator::operator==(CIterator const &second) const
+template <class T>
+bool CVector<T>::CIterator::operator==(const CIterator &second) const
 {
     return this->index == second.index;
 }
 
-template<class T>
-bool CVector<T>::CIterator::operator!=(CIterator const &second) const
+template <class T>
+bool CVector<T>::CIterator::operator!=(const CIterator &second) const
 {
-    return this->index !=second.index;
+    return this->index != second.index;
 }
