@@ -21,11 +21,32 @@ CVector<T>::CVector(size_type n, const T &value) : container_(nullptr), size_(0)
 }
 
 template <class T>
-template <class... U, typename F>
-CVector<T>::CVector(const T &first, const U &... vars) : container_(nullptr), size_(0), capacity_(0), allocator_(CVector<T>::Allocator())
+CVector<T>::CVector(const std::initializer_list<T> &il) : container_(nullptr), size_(0), capacity_(0), allocator_(CVector<T>::Allocator())
 {
-    this->base_alloc(sizeof...(vars) + 1);
-    this->emplace_back(first, vars...);
+    this->base_alloc(il.size());
+    for (auto iter = il.begin(); iter != il.end(); iter++)
+    {
+        this->push_back(*iter);
+    }
+}
+
+template <class T>
+template <class InputIterator>
+CVector<T>::CVector(InputIterator first, InputIterator last)
+{
+    this->base_alloc(1);
+    for (auto iter = first; iter != last; iter++)
+    {
+        this->push_back(*iter);
+    }
+}
+
+template <class T>
+CVector<T> &CVector<T>::operator=(const std::initializer_list<T> &il)
+{
+    CVector<T> res(il.begin(), il.end());
+    *this = std::move(res);
+    return *this;
 }
 
 template <class T>
@@ -151,7 +172,8 @@ constexpr void CVector<T>::push_back(const T &value)
         this->reserve(this->reserve_policy());
     }
 
-    this->container_[this->size_++] = value;
+    new (this->container_ + this->size_) T(value);
+    this->size_++;
 }
 
 template <class T>
@@ -161,8 +183,8 @@ constexpr void CVector<T>::push_back(T &&value)
     {
         this->reserve(this->reserve_policy());
     }
-
-    this->container_[this->size_++] = std::move(value);
+    new (this->container_ + this->size_) T(std::move(value));
+    this->size_++;
 }
 
 template <class T>
@@ -179,7 +201,7 @@ typename CVector<T>::value_type CVector<T>::pop_back()
 template <class T>
 typename CVector<T>::size_type CVector<T>::reserve_policy()
 {
-    return this->capacity_ * 2;
+    return this->capacity_ * 2 + 1;
 }
 
 template <class T>
@@ -194,6 +216,7 @@ void CVector<T>::base_alloc(size_type n)
 {
     this->container_ = this->allocator_.allocate(n);
     this->capacity_ = n;
+    this->size_ = 0;
 }
 
 template <class T>
@@ -245,17 +268,16 @@ typename CVector<T>::const_reverse_iterator CVector<T>::rend() const
 }
 
 template <class T>
-template <class... U, typename F>
-void CVector<T>::emplace_back(const T &first, const U &... vars)
+template <class... U>
+void CVector<T>::emplace_back(const U &... vars)
 {
-    this->push_back(first);
-    this->emplace_back(vars...);
-}
+    if (this->size_ == this->capacity_)
+    {
+        this->reserve(this->reserve_policy());
+    }
 
-template <class T>
-void CVector<T>::emplace_back(const T &last)
-{
-    this->push_back(last);
+    new (this->container_ + this->size_) T(vars...);
+    this->size_++;
 }
 
 template <class T>

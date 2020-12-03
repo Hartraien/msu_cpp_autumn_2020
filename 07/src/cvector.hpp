@@ -4,6 +4,8 @@
 #include "exc/outofbounds.hpp"
 #include "exc/emptyvectorexception.hpp"
 
+#include <initializer_list>
+
 template <class T>
 class CVector
 {
@@ -20,7 +22,7 @@ private:
         using iterator_category = std::random_access_iterator_tag;
 
         CIterator() : vec_pointer(nullptr), index(0){};
-        CIterator(pointer v, size_t i) : vec_pointer(v), index(i){};
+        explicit CIterator(pointer v, size_t i) : vec_pointer(v), index(i){};
         CIterator(const CIterator &other) : vec_pointer(other.vec_pointer), index(other.index){};
         CIterator(CIterator &&other) : vec_pointer(other.vec_pointer), index(other.index)
         {
@@ -74,21 +76,20 @@ public:
 
 public:
     CVector();
-    CVector(size_type n);
-    CVector(size_type n, const T &value);
+    explicit CVector(size_type n);
+    explicit CVector(size_type n, const T &value);
     CVector(const CVector<T> &other);
     CVector(CVector<T> &&other);
+    CVector(const std::initializer_list<T> &il);
+
+    template <class InputIterator>
+    CVector(InputIterator first, InputIterator last);
 
     CVector &operator=(const CVector<T> &other);
     CVector &operator=(CVector<T> &&other);
+    CVector &operator=(const std::initializer_list<T> &il);
 
     ~CVector();
-
-    template <typename... U,
-              typename = std::enable_if_t<
-                  std::conjunction_v<
-                      std::is_same<T, U>...>>>
-    CVector(const T &first, const U &... vars);
 
     constexpr size_type capacity() const;
     constexpr size_type size() const;
@@ -105,12 +106,8 @@ public:
     constexpr void push_back(T &&value);
     value_type pop_back();
 
-    template <typename... U,
-              typename = std::enable_if_t<
-                  std::conjunction_v<
-                      std::is_same<T, U>...>>>
-    void emplace_back(const T &first, const U &... vars);
-    void emplace_back(const T &last);
+    template <typename... U>
+    void emplace_back(const U &... vars);
 
     iterator begin();
     iterator end();

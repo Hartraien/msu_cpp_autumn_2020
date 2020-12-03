@@ -1,13 +1,10 @@
 #include <iostream>
-#include "testerclass.hpp"
+#include "VectorTester.hpp"
 #include "../src/cvector.hpp"
+#include <vector>
 
 int main()
 {
-    CVector<testerclass> vec;
-    testerclass t;
-    t.a = 20;
-    vec.push_back(t);
-    testerclass b = vec[0];
-    std::cout << t.a << " " << b.a << std::endl;
+    VectorTester vec_tes;
+    vec_tes.test();
 }
