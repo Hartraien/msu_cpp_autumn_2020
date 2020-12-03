@@ -1,33 +1,27 @@
 CC = g++
 DEPDIR := .deps
-SUFFIXES += .d
+.SUFFIXES += .d
 
 CFLAGS = -std=c++17 -g -Wall -O1
-DEPFLAGS = -MT $@ -MM -MP -MF $(DEPDIR)/$*.td
-POSTCOMPILE = mv -f $(DEPDIR)/$*.td $(DEPDIR)/$*.d && touch $@
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.td
+POSTCOMPILE = mv -f $(DEPDIR)/$*.td $(DEPDIR)/$*.d && touch $(DEPDIR)/$@
 
-VPATH = ./src:./src/exc:./test
+objects = test.o VectorTester.o
+deps = 
+
+VPATH = ./src:./src/exc:./test:./.deps
 
 all: test.out
 
 test: test.out
 	./test.out
 
-test.out: test.o VectorTester.o
+test.out: $(objects)
 	$(CC) $(CFLAGS) $^ -o $@
 
-test.o: test.cpp test.d | $(DEPDIR)
-	$(CC) $(CFLAGS) $< -c -o $@
 
-test.d: test.cpp | $(DEPDIR)
-	$(CC) $(DEPFLAGS) $<
-	$(POSTCOMPILE)
-
-VectorTester.o: VectorTester.cpp VectorTester.d | $(DEPDIR)
-	$(CC) $(CFLAGS) $< -c -o $@
-
-VectorTester.d: VectorTester.cpp | $(DEPDIR)
-	$(CC) $(DEPFLAGS) $<
+$(objects): %.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR)
+	$(CC) $(CFLAGS) $(DEPFLAGS) $< -c
 	$(POSTCOMPILE)
 
 clean:
@@ -37,7 +31,7 @@ clean:
 
 $(DEPDIR): ; @mkdir -p $@
 
-DEPFILES := $(SRCS:%.cpp=$(DEPDIR)/%.d)
+DEPFILES := $(objects:%.o=$(DEPDIR)/%.d)
 $(DEPFILES):
 
 include $(wildcard $(DEPFILES))
