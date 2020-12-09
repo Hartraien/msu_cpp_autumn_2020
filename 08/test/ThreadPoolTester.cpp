@@ -140,7 +140,8 @@ void ThreadPoolTester::testExecWithArgs()
 void ThreadPoolTester::testExecMemberFunc()
 {
     std::cout << "Testing ThreadPool::exec with class member function" << std::endl
-              << "-----using lambda function and std::bind (with placeholders)" << std::endl<< std::endl;
+              << "-----using lambda function and std::bind (with placeholders)" << std::endl
+              << std::endl;
 
     size_t poolSize = 1;
     tpns::ThreadPool pool(poolSize);

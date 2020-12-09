@@ -14,7 +14,11 @@ namespace tpns
     class ThreadPool
     {
     public:
+        //Constructor
+        //Argument - number of threads
         explicit ThreadPool(size_t poolSize);
+        //Destructor
+        //Waits for all Threads to finish
         ~ThreadPool();
 
         //return number of threads in pool
