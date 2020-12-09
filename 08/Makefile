@@ -9,13 +9,16 @@ all: test.out
 test: test.out
 	./test.out
 
-test.out: test.o ThreadPool.o
+test.out: test.o ThreadPool.o ThreadPoolTester.o
 	$(CC) $(CFLAGS) -pthread $^ -o $@
 
 test.o: test.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 ThreadPool.o: ThreadPool.cpp ThreadPool.hpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
+ThreadPoolTester.o: ThreadPoolTester.cpp ThreadPool.hpp ThreadPoolTester.hpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
