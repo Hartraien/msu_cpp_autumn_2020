@@ -7,7 +7,6 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.td
 POSTCOMPILE = mv -f $(DEPDIR)/$*.td $(DEPDIR)/$*.d && touch $@
 
 objects = test.o VectorTester.o
-deps = 
 
 VPATH = ./src:./src/exc:./test:./.deps
 
@@ -18,6 +17,7 @@ test: test.out
 
 test.out: $(objects)
 	$(CC) $(CFLAGS) $^ -o $@
+	touch $@
 
 
 $(objects): %.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR)
