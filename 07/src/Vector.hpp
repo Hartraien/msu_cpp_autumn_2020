@@ -120,7 +120,7 @@ public:
     const_reverse_iterator rend() const;
 
 private:
-    size_type reserve_policy();
+    constexpr size_type reserve_policy() const;
     void clear_and_deallocate();
     void clear_last_n(size_type n);
     void base_alloc(size_type n);

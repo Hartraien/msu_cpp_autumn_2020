@@ -199,7 +199,7 @@ typename Vector<T>::value_type Vector<T>::pop_back()
 }
 
 template <class T>
-typename Vector<T>::size_type Vector<T>::reserve_policy()
+constexpr typename Vector<T>::size_type Vector<T>::reserve_policy() const
 {
     return this->capacity_ * 2 + 1;
 }
