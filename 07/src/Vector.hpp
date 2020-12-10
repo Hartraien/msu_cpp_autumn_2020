@@ -133,5 +133,5 @@ private:
 };
 
 #include "citerator.tpp"
-#include "cvector.tpp"
+#include "Vector.tpp"
 #endif // __CVECTOR_H__

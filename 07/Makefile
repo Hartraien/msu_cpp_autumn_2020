@@ -4,7 +4,7 @@ DEPDIR := .deps
 
 CFLAGS = -std=c++17 -g -Wall -O1
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.td
-POSTCOMPILE = mv -f $(DEPDIR)/$*.td $(DEPDIR)/$*.d && touch $(DEPDIR)/$@
+POSTCOMPILE = mv -f $(DEPDIR)/$*.td $(DEPDIR)/$*.d && touch $@
 
 objects = test.o VectorTester.o
 deps = 
