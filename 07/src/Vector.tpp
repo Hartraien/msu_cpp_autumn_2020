@@ -1,17 +1,17 @@
 template <class T>
-CVector<T>::CVector() : container_(nullptr), size_(0), capacity_(0), allocator_(CVector<T>::Allocator())
+Vector<T>::Vector() : container_(nullptr), size_(0), capacity_(0), allocator_(Vector<T>::Allocator())
 {
     this->base_alloc(this->start_val);
 }
 
 template <class T>
-CVector<T>::CVector(size_type n) : container_(nullptr), size_(0), capacity_(0), allocator_(CVector<T>::Allocator())
+Vector<T>::Vector(size_type n) : container_(nullptr), size_(0), capacity_(0), allocator_(Vector<T>::Allocator())
 {
     this->base_alloc(n);
 }
 
 template <class T>
-CVector<T>::CVector(size_type n, const T &value) : container_(nullptr), size_(0), capacity_(0), allocator_(CVector<T>::Allocator())
+Vector<T>::Vector(size_type n, const T &value) : container_(nullptr), size_(0), capacity_(0), allocator_(Vector<T>::Allocator())
 {
     this->base_alloc(n);
     for (size_type i = 0; i < n; i++)
@@ -21,7 +21,7 @@ CVector<T>::CVector(size_type n, const T &value) : container_(nullptr), size_(0)
 }
 
 template <class T>
-CVector<T>::CVector(const std::initializer_list<T> &il) : container_(nullptr), size_(0), capacity_(0), allocator_(CVector<T>::Allocator())
+Vector<T>::Vector(const std::initializer_list<T> &il) : container_(nullptr), size_(0), capacity_(0), allocator_(Vector<T>::Allocator())
 {
     this->base_alloc(il.size());
     for (auto iter = il.begin(); iter != il.end(); iter++)
@@ -32,7 +32,7 @@ CVector<T>::CVector(const std::initializer_list<T> &il) : container_(nullptr), s
 
 template <class T>
 template <class InputIterator>
-CVector<T>::CVector(InputIterator first, InputIterator last)
+Vector<T>::Vector(InputIterator first, InputIterator last)
 {
     this->base_alloc(1);
     for (auto iter = first; iter != last; iter++)
@@ -42,15 +42,15 @@ CVector<T>::CVector(InputIterator first, InputIterator last)
 }
 
 template <class T>
-CVector<T> &CVector<T>::operator=(const std::initializer_list<T> &il)
+Vector<T> &Vector<T>::operator=(const std::initializer_list<T> &il)
 {
-    CVector<T> res(il.begin(), il.end());
+    Vector<T> res(il.begin(), il.end());
     *this = std::move(res);
     return *this;
 }
 
 template <class T>
-CVector<T>::CVector(const CVector<T> &other) : container_(nullptr), size_(0), capacity_(0), allocator_(other.allocator_)
+Vector<T>::Vector(const Vector<T> &other) : container_(nullptr), size_(0), capacity_(0), allocator_(other.allocator_)
 {
     this->base_alloc(other.capacity_);
     for (size_type i = 0; i < other.size_; i++)
@@ -60,7 +60,7 @@ CVector<T>::CVector(const CVector<T> &other) : container_(nullptr), size_(0), ca
 }
 
 template <class T>
-CVector<T>::CVector(CVector<T> &&other) : container_(std::move(other.container_)), size_(std::move(other.size_)), capacity_(std::move(other.capacity_)), allocator_(std::move(other.allocator_))
+Vector<T>::Vector(Vector<T> &&other) : container_(std::move(other.container_)), size_(std::move(other.size_)), capacity_(std::move(other.capacity_)), allocator_(std::move(other.allocator_))
 {
     other.container_ = nullptr;
     other.size_ = 0;
@@ -68,7 +68,7 @@ CVector<T>::CVector(CVector<T> &&other) : container_(std::move(other.container_)
 }
 
 template <class T>
-CVector<T> &CVector<T>::operator=(const CVector<T> &other)
+Vector<T> &Vector<T>::operator=(const Vector<T> &other)
 {
     if (this == &other)
         return *this;
@@ -82,7 +82,7 @@ CVector<T> &CVector<T>::operator=(const CVector<T> &other)
 }
 
 template <class T>
-CVector<T> &CVector<T>::operator=(CVector<T> &&other)
+Vector<T> &Vector<T>::operator=(Vector<T> &&other)
 {
     if (this == &other)
         return *this;
@@ -99,25 +99,25 @@ CVector<T> &CVector<T>::operator=(CVector<T> &&other)
 }
 
 template <class T>
-CVector<T>::~CVector()
+Vector<T>::~Vector()
 {
     this->clear_and_deallocate();
 }
 
 template <class T>
-constexpr typename CVector<T>::size_type CVector<T>::capacity() const
+constexpr typename Vector<T>::size_type Vector<T>::capacity() const
 {
     return this->capacity_;
 }
 
 template <class T>
-constexpr typename CVector<T>::size_type CVector<T>::size() const
+constexpr typename Vector<T>::size_type Vector<T>::size() const
 {
     return this->size_;
 }
 
 template <class T>
-void CVector<T>::clear()
+void Vector<T>::clear()
 {
     while (this->size_ > 0)
     {
@@ -127,13 +127,13 @@ void CVector<T>::clear()
 }
 
 template <class T>
-constexpr bool CVector<T>::empty() const
+constexpr bool Vector<T>::empty() const
 {
     return (this->size_ == 0);
 }
 
 template <class T>
-constexpr void CVector<T>::reserve(size_type n)
+constexpr void Vector<T>::reserve(size_type n)
 {
     if (n <= this->capacity_)
         return;
@@ -149,7 +149,7 @@ constexpr void CVector<T>::reserve(size_type n)
 }
 
 template <class T>
-typename CVector<T>::const_reference CVector<T>::operator[](size_type i) const
+typename Vector<T>::const_reference Vector<T>::operator[](size_type i) const
 {
     if (i >= this->size_)
         throw OOBException(i, this->size_);
@@ -157,7 +157,7 @@ typename CVector<T>::const_reference CVector<T>::operator[](size_type i) const
 }
 
 template <class T>
-typename CVector<T>::reference CVector<T>::operator[](size_type i)
+typename Vector<T>::reference Vector<T>::operator[](size_type i)
 {
     if (i >= this->size_)
         throw OOBException(i, this->size_);
@@ -165,7 +165,7 @@ typename CVector<T>::reference CVector<T>::operator[](size_type i)
 }
 
 template <class T>
-constexpr void CVector<T>::push_back(const T &value)
+constexpr void Vector<T>::push_back(const T &value)
 {
     if (this->size_ == this->capacity_)
     {
@@ -177,7 +177,7 @@ constexpr void CVector<T>::push_back(const T &value)
 }
 
 template <class T>
-constexpr void CVector<T>::push_back(T &&value)
+constexpr void Vector<T>::push_back(T &&value)
 {
     if (this->size_ == this->capacity_)
     {
@@ -188,7 +188,7 @@ constexpr void CVector<T>::push_back(T &&value)
 }
 
 template <class T>
-typename CVector<T>::value_type CVector<T>::pop_back()
+typename Vector<T>::value_type Vector<T>::pop_back()
 {
     if (this->size_ == 0)
         throw EmptyVectorException("pop_back");
@@ -199,20 +199,20 @@ typename CVector<T>::value_type CVector<T>::pop_back()
 }
 
 template <class T>
-typename CVector<T>::size_type CVector<T>::reserve_policy()
+typename Vector<T>::size_type Vector<T>::reserve_policy()
 {
     return this->capacity_ * 2 + 1;
 }
 
 template <class T>
-void CVector<T>::clear_and_deallocate()
+void Vector<T>::clear_and_deallocate()
 {
     this->clear();
     this->allocator_.deallocate(this->container_, this->capacity_);
 }
 
 template <class T>
-void CVector<T>::base_alloc(size_type n)
+void Vector<T>::base_alloc(size_type n)
 {
     this->container_ = this->allocator_.allocate(n);
     this->capacity_ = n;
@@ -220,56 +220,56 @@ void CVector<T>::base_alloc(size_type n)
 }
 
 template <class T>
-typename CVector<T>::iterator CVector<T>::begin()
+typename Vector<T>::iterator Vector<T>::begin()
 {
     return iterator(this->container_, 0);
 }
 
 template <class T>
-typename CVector<T>::iterator CVector<T>::end()
+typename Vector<T>::iterator Vector<T>::end()
 {
     return iterator(this->container_, this->size_);
 }
 
 template <class T>
-typename CVector<T>::const_iterator CVector<T>::begin() const
+typename Vector<T>::const_iterator Vector<T>::begin() const
 {
     return iterator(this->container_, 0);
 }
 
 template <class T>
-typename CVector<T>::const_iterator CVector<T>::end() const
+typename Vector<T>::const_iterator Vector<T>::end() const
 {
     return iterator(this->container_, this->size_);
 }
 
 template <class T>
-typename CVector<T>::reverse_iterator CVector<T>::rbegin()
+typename Vector<T>::reverse_iterator Vector<T>::rbegin()
 {
     return reverse_iterator(this->end());
 }
 
 template <class T>
-typename CVector<T>::reverse_iterator CVector<T>::rend()
+typename Vector<T>::reverse_iterator Vector<T>::rend()
 {
     return reverse_iterator(this->begin());
 }
 
 template <class T>
-typename CVector<T>::const_reverse_iterator CVector<T>::rbegin() const
+typename Vector<T>::const_reverse_iterator Vector<T>::rbegin() const
 {
     return reverse_iterator(this->end());
 }
 
 template <class T>
-typename CVector<T>::const_reverse_iterator CVector<T>::rend() const
+typename Vector<T>::const_reverse_iterator Vector<T>::rend() const
 {
     return reverse_iterator(this->begin());
 }
 
 template <class T>
 template <class... U>
-void CVector<T>::emplace_back(const U &... vars)
+void Vector<T>::emplace_back(const U &... vars)
 {
     if (this->size_ == this->capacity_)
     {
@@ -281,7 +281,7 @@ void CVector<T>::emplace_back(const U &... vars)
 }
 
 template <class T>
-constexpr void CVector<T>::resize(size_type n)
+constexpr void Vector<T>::resize(size_type n)
 {
     if (n == this->size_)
         return;
@@ -301,7 +301,7 @@ constexpr void CVector<T>::resize(size_type n)
 }
 
 template <class T>
-constexpr void CVector<T>::resize(size_type n, const value_type &val)
+constexpr void Vector<T>::resize(size_type n, const value_type &val)
 {
     if (n == this->size_)
         return;
@@ -321,7 +321,7 @@ constexpr void CVector<T>::resize(size_type n, const value_type &val)
 }
 
 template <class T>
-void CVector<T>::clear_last_n(size_type n)
+void Vector<T>::clear_last_n(size_type n)
 {
     while (this->size_ > n)
     {

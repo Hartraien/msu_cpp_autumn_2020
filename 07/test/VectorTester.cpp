@@ -52,12 +52,12 @@ void VectorTester::test_default_constructor()
     std::cout << std::endl
               << "Testing default constructors" << std::endl;
 
-    CVector<int> vec;
+    Vector<int> vec;
     assert(vec.size() == 0);
     assert(vec.capacity() == 6);
 
     size_t capacity = 60;
-    CVector<int> vec2(capacity);
+    Vector<int> vec2(capacity);
     assert(vec2.size() == 0);
     assert(vec2.capacity() == capacity);
 
@@ -72,7 +72,7 @@ void VectorTester::test_default_value_constructor()
 
     size_t capacity = 55;
     int val = 6;
-    CVector<int> vec(capacity, val);
+    Vector<int> vec(capacity, val);
     assert(vec.size() == capacity);
     assert(vec.capacity() == capacity);
     for (size_t i = 0; i < capacity; i++)
@@ -91,8 +91,8 @@ void VectorTester::test_copy_constructor()
 
     size_t capacity = 55;
     int val = 6;
-    CVector<int> vec1(capacity, val);
-    CVector<int> vec2(vec1);
+    Vector<int> vec1(capacity, val);
+    Vector<int> vec2(vec1);
     assert(vec2.size() == vec1.size());
     assert(vec2.capacity() == vec1.capacity());
     for (size_t i = 0; i < capacity; i++)
@@ -111,8 +111,8 @@ void VectorTester::test_move_constructor()
 
     size_t capacity = 55;
     int val = 6;
-    CVector<int> vec1(capacity, val);
-    CVector<int> vec2(std::move(vec1));
+    Vector<int> vec1(capacity, val);
+    Vector<int> vec2(std::move(vec1));
     assert(vec2.size() == capacity);
     assert(vec2.capacity() == capacity);
     for (size_t i = 0; i < capacity; i++)
@@ -141,7 +141,7 @@ void VectorTester::test_init_list_constructor()
               << std::endl;
 
     int a[] = {20, 30, 40};
-    CVector<int> vec({20, 30, 40});
+    Vector<int> vec({20, 30, 40});
     assert(vec.size() == 3);
     assert(vec.capacity() == 3);
     for (size_t i = 0; i < 3; i++)
@@ -159,7 +159,7 @@ void VectorTester::test_iterator_constructor()
               << std::endl;
 
     std::vector<int> v({10, 20, 30});
-    CVector<int> vec(v.begin(), v.end());
+    Vector<int> vec(v.begin(), v.end());
     assert(vec.size() == v.size());
     assert(vec.capacity() == v.size());
     for (size_t i = 0; i < v.size(); i++)
@@ -178,8 +178,8 @@ void VectorTester::test_operatorEQ_copy()
 
     size_t capacity = 55;
     int val = 6;
-    CVector<int> vec1(capacity, val);
-    CVector<int> vec2;
+    Vector<int> vec1(capacity, val);
+    Vector<int> vec2;
     vec2 = vec1;
     assert(vec2.size() == vec1.size());
     assert(vec2.capacity() == vec1.capacity());
@@ -199,8 +199,8 @@ void VectorTester::test_operatorEQ_move()
 
     size_t capacity = 55;
     int val = 6;
-    CVector<int> vec1(capacity, val);
-    CVector<int> vec2;
+    Vector<int> vec1(capacity, val);
+    Vector<int> vec2;
     vec2 = std::move(vec1);
     assert(vec2.size() == capacity);
     assert(vec2.capacity() == capacity);
@@ -219,7 +219,7 @@ void VectorTester::test_operatorEQ_init_list()
               << std::endl;
 
     int a[] = {20, 30, 40};
-    CVector<int> vec;
+    Vector<int> vec;
     vec = {20, 30, 40};
     assert(vec.size() == 3);
     assert(vec.capacity() == 3);
@@ -239,10 +239,10 @@ void VectorTester::test_resize()
 
     size_t capacity = 10;
     int val = 10;
-    CVector<int> vec_def(capacity, val);
+    Vector<int> vec_def(capacity, val);
 
-    CVector<int> vec(capacity, val);
-    CVector<int> vec2(capacity, val);
+    Vector<int> vec(capacity, val);
+    Vector<int> vec2(capacity, val);
 
     vec.resize(capacity / 2);
     assert(vec.size() == capacity / 2);
@@ -276,10 +276,10 @@ void VectorTester::test_resize_with_value()
 
     size_t capacity = 10;
     int val = 1;
-    CVector<int> vec_def(capacity, val);
+    Vector<int> vec_def(capacity, val);
 
-    CVector<int> vec(capacity, val);
-    CVector<int> vec2(capacity, val);
+    Vector<int> vec(capacity, val);
+    Vector<int> vec2(capacity, val);
 
     vec.resize(capacity / 2);
     assert(vec.size() == capacity / 2);
@@ -312,7 +312,7 @@ void VectorTester::test_reserve()
 
     size_t capacity = 10;
     int val = 1;
-    CVector<int> vec(capacity, val);
+    Vector<int> vec(capacity, val);
     vec.reserve(capacity - 1);
     assert(vec.size() == capacity);
     assert(vec.capacity() == capacity);
@@ -332,7 +332,7 @@ void VectorTester::test_getter()
 
     size_t capacity = 10;
     int val = 1;
-    CVector<int> vec(capacity, val);
+    Vector<int> vec(capacity, val);
 
     for (size_t i = 0; i < vec.size(); i++)
     {
@@ -364,7 +364,7 @@ void VectorTester::test_setter()
 
     size_t capacity = 10;
     int val = 1;
-    CVector<int> vec(capacity, val);
+    Vector<int> vec(capacity, val);
 
     for (size_t i = 0; i < vec.size(); i++)
     {
@@ -397,7 +397,7 @@ void VectorTester::test_push_back()
 
     size_t capacity = 10;
     int val = 1;
-    CVector<int> vec(capacity, val);
+    Vector<int> vec(capacity, val);
 
     for (size_t i = 0; i < vec.size(); i++)
     {
@@ -419,8 +419,8 @@ void VectorTester::test_pop_back()
               << std::endl;
     size_t capacity = 10;
     int val = 1;
-    CVector<int> vec(capacity, val);
-    CVector<int> vec2;
+    Vector<int> vec(capacity, val);
+    Vector<int> vec2;
 
     for (size_t i = 0; i < vec.size(); i++)
     {
@@ -451,7 +451,7 @@ void VectorTester::test_emplace_back()
     std::cout << "Testing emplace_back" << std::endl
               << std::endl;
     size_t capacity = 10;
-    CVector<testerclass> vec(capacity);
+    Vector<testerclass> vec(capacity);
 
     int a = 1;
     int b = 2;
@@ -473,7 +473,7 @@ void VectorTester::test_forward_iterator()
               << std::endl;
 
     size_t capacity = 10;
-    CVector<int> vec(capacity);
+    Vector<int> vec(capacity);
     for (size_t i = 0; i < capacity; i++)
     {
         vec.push_back(i + 1);
@@ -495,7 +495,7 @@ void VectorTester::test_reverse_iterator()
               << std::endl;
 
     size_t capacity = 10;
-    CVector<int> vec(capacity);
+    Vector<int> vec(capacity);
     for (size_t i = 0; i < capacity; i++)
     {
         vec.push_back(i + 1);

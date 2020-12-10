@@ -1,6 +1,6 @@
 #include <iostream>
 #include "VectorTester.hpp"
-#include "../src/cvector.hpp"
+#include "../src/Vector.hpp"
 #include <vector>
 
 int main()

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
-#include "../src/cvector.hpp"
+#include "../src/Vector.hpp"
 
 class VectorTester
 {

@@ -7,7 +7,7 @@
 #include <initializer_list>
 
 template <class T>
-class CVector
+class Vector
 {
 private:
     class CIterator
@@ -75,21 +75,21 @@ public:
     using Allocator = CAllocator<T>;
 
 public:
-    CVector();
-    explicit CVector(size_type n);
-    explicit CVector(size_type n, const T &value);
-    CVector(const CVector<T> &other);
-    CVector(CVector<T> &&other);
-    CVector(const std::initializer_list<T> &il);
+    Vector();
+    explicit Vector(size_type n);
+    explicit Vector(size_type n, const T &value);
+    Vector(const Vector<T> &other);
+    Vector(Vector<T> &&other);
+    Vector(const std::initializer_list<T> &il);
 
     template <class InputIterator>
-    CVector(InputIterator first, InputIterator last);
+    Vector(InputIterator first, InputIterator last);
 
-    CVector &operator=(const CVector<T> &other);
-    CVector &operator=(CVector<T> &&other);
-    CVector &operator=(const std::initializer_list<T> &il);
+    Vector &operator=(const Vector<T> &other);
+    Vector &operator=(Vector<T> &&other);
+    Vector &operator=(const std::initializer_list<T> &il);
 
-    ~CVector();
+    ~Vector();
 
     constexpr size_type capacity() const;
     constexpr size_type size() const;
