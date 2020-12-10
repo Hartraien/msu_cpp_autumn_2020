@@ -34,7 +34,7 @@ namespace tpns
         // Constantly loops over queue
         // (Or waits while it is empty)
         // And executes functions with arguments
-        void inf_loop();
+        void threadWorkerMethod();
 
         //Pool should not be copyable
         ThreadPool(const ThreadPool &other) = delete;
@@ -46,7 +46,7 @@ namespace tpns
         //Common notifier
         std::condition_variable notifier;
         //List of functions (packaged with arguments) to call
-        std::queue<std::packaged_task<void()>> TaskQueue;
+        std::queue<std::packaged_task<void()>> task_queue;
         std::mutex mutex;
         std::atomic<bool> destr_state = false;
     };
@@ -59,10 +59,11 @@ namespace tpns
         std::future<return_type> task_res = task.get_future();
         {
             std::unique_lock<std::mutex> lock(this->mutex);
-            this->TaskQueue.emplace(std::packaged_task<void()>(std::move(task)));
+            this->task_queue.emplace(std::packaged_task<void()>(std::move(task)));
         }
         this->notifier.notify_one();
         return task_res;
     }
 } // namespace tpns
+
 #endif // __THREADPOOL_H__

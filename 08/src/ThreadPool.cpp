@@ -8,12 +8,12 @@ tpns::ThreadPool::ThreadPool(size_t poolSize)
     if (poolSize > tpns::MAX_THREADS)
         throw std::invalid_argument("Pool size can't be higher than MAX_THREADS");
 
-    //Create threads that execute inf_loop method of this class
+    //Create threads that execute threadWorkerMethod method of this class
     this->thread_container.reserve(poolSize);
     for (size_t i = 0; i < poolSize; i++)
     {
         //this is passed so that it will access memebers of this instance
-        thread_container.emplace_back(&ThreadPool::inf_loop, this);
+        thread_container.emplace_back(&ThreadPool::threadWorkerMethod, this);
     }
 }
 
@@ -35,9 +35,9 @@ size_t tpns::ThreadPool::poolSize()
     return this->thread_container.size();
 }
 
-void tpns::ThreadPool::inf_loop()
+void tpns::ThreadPool::threadWorkerMethod()
 {
-    //Infinitely loops over TaskQueue
+    //Infinitely loops over task_queue
     //Takes first Func
     //And executes it
     while (true)
@@ -52,16 +52,16 @@ void tpns::ThreadPool::inf_loop()
             // if queue is empty, stops until notification
             // it unlocks lock while waiting and locks it when notified
             // also unlocks by destructor, so that all thread will be stopped
-            notifier.wait(lock, [this] { return (!this->TaskQueue.empty() || this->destr_state); });
+            notifier.wait(lock, [this] { return (!this->task_queue.empty() || this->destr_state); });
 
             // if notified by destructor
             if (destr_state)
                 break;
 
             //get_task_from queue
-            task = std::move(TaskQueue.front());
+            task = std::move(task_queue.front());
             //remove task from queue
-            TaskQueue.pop();
+            task_queue.pop();
         }
         //execute_task
         task();
