@@ -140,7 +140,7 @@ constexpr void Vector<T>::reserve(size_type n)
     pointer temp = this->allocator_.allocate(n);
     for (size_type i = size_; i > 0; i--)
     {
-        temp[i - 1] = this->container_[i - 1];
+        temp[i - 1] = std::move(this->container_[i - 1]);
         this->container_[i - 1].~T();
     }
     this->allocator_.deallocate(this->container_, this->capacity_);
@@ -232,13 +232,13 @@ typename Vector<T>::iterator Vector<T>::end()
 }
 
 template <class T>
-typename Vector<T>::const_iterator Vector<T>::begin() const
+typename Vector<T>::const_iterator Vector<T>::cbegin() const
 {
     return iterator(this->container_, 0);
 }
 
 template <class T>
-typename Vector<T>::const_iterator Vector<T>::end() const
+typename Vector<T>::const_iterator Vector<T>::cend() const
 {
     return iterator(this->container_, this->size_);
 }
@@ -256,20 +256,20 @@ typename Vector<T>::reverse_iterator Vector<T>::rend()
 }
 
 template <class T>
-typename Vector<T>::const_reverse_iterator Vector<T>::rbegin() const
+typename Vector<T>::const_reverse_iterator Vector<T>::crbegin() const
 {
-    return reverse_iterator(this->end());
+    return reverse_iterator(this->cend());
 }
 
 template <class T>
-typename Vector<T>::const_reverse_iterator Vector<T>::rend() const
+typename Vector<T>::const_reverse_iterator Vector<T>::crend() const
 {
-    return reverse_iterator(this->begin());
+    return reverse_iterator(this->cbegin());
 }
 
 template <class T>
-template <class... U>
-void Vector<T>::emplace_back(const U &... vars)
+template <class... Args>
+void Vector<T>::emplace_back(Args&&... vars)
 {
     if (this->size_ == this->capacity_)
     {

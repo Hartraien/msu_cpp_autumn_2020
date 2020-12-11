@@ -106,18 +106,18 @@ public:
     constexpr void push_back(T &&value);
     value_type pop_back();
 
-    template <typename... U>
-    void emplace_back(const U &... vars);
+    template <typename... Args>
+    void emplace_back(Args&&... vars);
 
     iterator begin();
     iterator end();
     reverse_iterator rbegin();
     reverse_iterator rend();
 
-    const_iterator begin() const;
-    const_iterator end() const;
-    const_reverse_iterator rbegin() const;
-    const_reverse_iterator rend() const;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+    const_reverse_iterator crbegin() const;
+    const_reverse_iterator crend() const;
 
 private:
     constexpr size_type reserve_policy() const;
