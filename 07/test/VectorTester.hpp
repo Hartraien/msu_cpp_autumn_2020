@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+#include <sstream>
 #include "../src/Vector.hpp"
 
 class VectorTester
@@ -40,6 +41,33 @@ public:
     void test_forward_iterator();
     void test_reverse_iterator();
 
+    class testerclass_construct
+    {
+    public:
+        testerclass_construct(){};
+        testerclass_construct(const testerclass_construct &a)
+        {
+            std::cout << "copy constructor" << std::endl;
+        }
+
+        testerclass_construct &operator=(const testerclass_construct &a)
+        {
+            std::cout << "copy operator=" << std::endl;
+            return *this;
+        }
+
+        testerclass_construct(testerclass_construct &&a)
+        {
+            std::cout << "move constructor" << std::endl;
+        }
+
+        testerclass_construct &operator=(testerclass_construct &&a)
+        {
+            std::cout << "move operator=" << std::endl;
+            return *this;
+        }
+    };
+
     class testerclass
     {
     public:
@@ -52,7 +80,7 @@ public:
             b = 0;
             c = "";
         };
-        testerclass(int a, int b, std::string c)
+        testerclass(const int &a, const int &b, const std::string &c, const testerclass_construct& tc)
         {
             this->a = a;
             this->b = b;

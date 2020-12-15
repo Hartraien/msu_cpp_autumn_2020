@@ -456,12 +456,23 @@ void VectorTester::test_emplace_back()
     int a = 1;
     int b = 2;
     std::string c = "test";
+    VectorTester::testerclass_construct tc;
 
-    vec.emplace_back(a, b, c);
+    auto oldStdoutBuf = std::cout.rdbuf();
+    std::stringstream tempCout;
+    std::cout.rdbuf(tempCout.rdbuf());
+
+    vec.emplace_back(a, b, c, tc);
+
+    std::cout.rdbuf(oldStdoutBuf);
+
     testerclass cl = vec.pop_back();
     assert(cl.a == a);
     assert(cl.b == b);
     assert(cl.c == c);
+
+    //This shows that non of the move or copy constructor or operator= for testerclass_construct was called
+    assert((tempCout.str() == "") && "Either copy or move constructor (or operator=) was called");
 
     std::cout << "Successfully tested emplace_back" << std::endl
               << std::endl;

@@ -172,7 +172,7 @@ constexpr void Vector<T>::push_back(const T &value)
         this->reserve(this->reserve_policy());
     }
 
-    new (this->container_ + this->size_) T(value);
+    this->allocator_.construct(this->container_ + this->size_, value);
     this->size_++;
 }
 
@@ -183,7 +183,7 @@ constexpr void Vector<T>::push_back(T &&value)
     {
         this->reserve(this->reserve_policy());
     }
-    new (this->container_ + this->size_) T(std::move(value));
+    this->allocator_.construct(this->container_ + this->size_, std::move(value));
     this->size_++;
 }
 
@@ -275,8 +275,7 @@ void Vector<T>::emplace_back(Args &&... vars)
     {
         this->reserve(this->reserve_policy());
     }
-
-    new (this->container_ + this->size_) T(vars...);
+    this->allocator_.construct(this->container_ + this->size_, std::forward<Args>(vars)...);
     this->size_++;
 }
 

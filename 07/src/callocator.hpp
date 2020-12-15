@@ -15,6 +15,8 @@ public:
 public:
     pointer allocate(size_type n);
     void deallocate(pointer p, size_type n);
+    template <class... Args>
+    void construct(pointer p, Args &&... vars);
 };
 
 template <class T>
@@ -26,10 +28,17 @@ typename CAllocator<T>::pointer CAllocator<T>::allocate(size_type n)
     return p;
 }
 
-template<class T>
-void CAllocator<T>::deallocate(pointer p, size_type n) 
+template <class T>
+void CAllocator<T>::deallocate(pointer p, size_type n)
 {
-    ::operator delete(static_cast<void*>(p));
+    ::operator delete(static_cast<void *>(p));
+}
+
+template <class T>
+template <class... Args>
+void CAllocator<T>::construct(pointer p, Args &&... vars)
+{
+    new (p) T(std::forward<Args>(vars)...);
 }
 
 template <class T, class U>
