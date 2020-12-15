@@ -107,7 +107,7 @@ public:
     value_type pop_back();
 
     template <typename... Args>
-    void emplace_back(Args &&... vars);
+    reference emplace_back(Args &&... vars);
 
     iterator begin();
     iterator end();

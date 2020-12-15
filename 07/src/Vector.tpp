@@ -269,7 +269,7 @@ typename Vector<T>::const_reverse_iterator Vector<T>::crend() const
 
 template <class T>
 template <class... Args>
-void Vector<T>::emplace_back(Args &&... vars)
+typename Vector<T>::reference Vector<T>::emplace_back(Args &&... vars)
 {
     if (this->size_ == this->capacity_)
     {
@@ -277,6 +277,7 @@ void Vector<T>::emplace_back(Args &&... vars)
     }
     this->allocator_.construct(this->container_ + this->size_, std::forward<Args>(vars)...);
     this->size_++;
+    return this->container_[this->size_ - 1];
 }
 
 template <class T>
